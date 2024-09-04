@@ -1,79 +1,134 @@
-
 //funciones auxiliares para hacer las validaciones
-import * as AF from './aux-functions.js';
+import * as AF from "./aux-functions.js";
 
 //## INFO CONTACTO ##
 const nombreInput = document.getElementById("nombre");
 const emailInput = document.getElementById("email");
 const celularInput = document.getElementById("celular");
 const regionInput = document.querySelector("#region");
-const comunaInput = document.querySelector('#comuna');
+const comunaInput = document.querySelector("#comuna");
 
 //#### NOMBRE ####
 const validarNombre = (campo) => {
-    return AF.validarFormato(/^[A-Za-z\s]+$/,"El formato solo permite caracteres literales",3,80,campo)
+  return AF.validarFormato(
+    /^[A-Za-z\s]+$/,
+    "El formato solo permite caracteres literales",
+    3,
+    80,
+    campo
+  );
 };
 //#### EMAIL ####
 const validarEmail = (campo) => {
-    return AF.validarFormato(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,"Debe cumplir con el formato de correo electrónico, tucorreo@dominio.com",5,30,campo = emailInput)
+  return AF.validarFormato(
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+    "Debe cumplir con el formato de correo electrónico, tucorreo@dominio.com",
+    5,
+    30,
+    (campo = emailInput)
+  );
 };
 //#### CELULAR ####
-const validarCelular = (campo) =>{
-    return AF.validarFormato(/^[0-9]{3,15}$/,"El formato solo permite numeros",3,15,campo = celularInput);
+const validarCelular = (campo) => {
+  return AF.validarFormato(
+    /^[0-9]{3,15}$/,
+    "El formato solo permite numeros",
+    3,
+    15,
+    (campo = celularInput)
+  );
 };
 //#### REGION ####
 const validarRegion = (campo) => {
-    let textoVisible=campo.options[campo.selectedIndex].textContent;
-    if(campo.value==0){
-        return AF.validarCampoVacio(campo)
-    }
-    let cond1 = regiones_comunas.regiones.find(region => region.id == campo.value);
-    let cond2 = regiones_comunas.regiones.find(region => region.nombre == textoVisible);
-    return AF.validarSelect(cond1==cond2,campo)
+  let textoVisible = campo.options[campo.selectedIndex].textContent;
+  if (campo.value == 0) {
+    return AF.validarCampoVacio(campo);
+  }
+  let cond1 = regiones_comunas.regiones.find(
+    (region) => region.id == campo.value
+  );
+  let cond2 = regiones_comunas.regiones.find(
+    (region) => region.nombre == textoVisible
+  );
+  return AF.validarSelect(cond1 == cond2, campo);
 };
 //#### COMUNA ####
-const validarComuna = (regionSelected,campo) => {
-    let textoVisible=campo.options[campo.selectedIndex].textContent;
-    if(campo.value==0){
-        return AF.validarCampoVacio(campo)
-    }
-    let regionSeleccionada = regiones_comunas.regiones.find(region => region.id == regionSelected.value);
-    let cond1 = regionSeleccionada.comunas.find(comuna => comuna.id == campo.value);
-    let cond2 = regionSeleccionada.comunas.find(comuna => comuna.nombre == textoVisible);
-    return AF.validarSelect(cond1==cond2,campo)
+const validarComuna = (regionSelected, campo) => {
+  let textoVisible = campo.options[campo.selectedIndex].textContent;
+  if (campo.value == 0) {
+    return AF.validarCampoVacio(campo);
+  }
+  let regionSeleccionada = regiones_comunas.regiones.find(
+    (region) => region.id == regionSelected.value
+  );
+  let cond1 = regionSeleccionada.comunas.find(
+    (comuna) => comuna.id == campo.value
+  );
+  let cond2 = regionSeleccionada.comunas.find(
+    (comuna) => comuna.nombre == textoVisible
+  );
+  return AF.validarSelect(cond1 == cond2, campo);
 };
 //### DISPOSITIVO ###
 const validarDispositivo = (campo) => {
-    return AF.validarFormato( /^[A-Za-z\s]+$/,"El formato solo permite caracteres literales",3,80,campo)
+  return AF.validarFormato(
+    /^[A-Za-z\s]+$/,
+    "El formato solo permite caracteres literales",
+    3,
+    80,
+    campo
+  );
 };
 //### TIPO ###
 const validarTipo = (campo) => {
-    let opcionElegida=campo.options[campo.selectedIndex].textContent
-    if(campo.value==0){
-        return AF.validarCampoVacio(campo)
-    }
-    let opcionesvalidas=["Pantalla","Notebook","Tablet","Celular","Consola","Mouse","Teclado","Impresora","Parlante","Audífonos","Otro"]
-    return AF.validarSelect(opcionesvalidas.includes(opcionElegida),campo)
+  let opcionElegida = campo.options[campo.selectedIndex].textContent;
+  if (campo.value == 0) {
+    return AF.validarCampoVacio(campo);
+  }
+  let opcionesvalidas = [
+    "Pantalla",
+    "Notebook",
+    "Tablet",
+    "Celular",
+    "Consola",
+    "Mouse",
+    "Teclado",
+    "Impresora",
+    "Parlante",
+    "Audífonos",
+    "Otro",
+  ];
+  return AF.validarSelect(opcionesvalidas.includes(opcionElegida), campo);
 };
 //### TIEMPO DE USO ###
-const validarTiempodeuso= (campo) => {
-    return AF.validarFormato( /^(?:[1-9]|[1-9][0-9])$/,"El formato solo permite caracteres numericos entre 1 y 99",1,2,campo)
+const validarTiempodeuso = (campo) => {
+  return AF.validarFormato(
+    /^(?:[1-9]|[1-9][0-9])$/,
+    "El formato solo permite caracteres numericos entre 1 y 99",
+    1,
+    2,
+    campo
+  );
 };
 //### ESTADO ###
 const validarEstado = (campo) => {
-    let opcionElegida=campo.options[campo.selectedIndex].textContent
-    if(campo.value==0){
-        return AF.validarCampoVacio(campo)
-    }
-    let opcionesvalidas=["Funciona perfecto" , "Funciona a medias" , "No funciona"]
-    return AF.validarSelect(opcionesvalidas.includes(opcionElegida),campo)
+  let opcionElegida = campo.options[campo.selectedIndex].textContent;
+  if (campo.value == 0) {
+    return AF.validarCampoVacio(campo);
+  }
+  let opcionesvalidas = [
+    "Funciona perfecto",
+    "Funciona a medias",
+    "No funciona",
+  ];
+  return AF.validarSelect(opcionesvalidas.includes(opcionElegida), campo);
 };
 //### ARCHIVOS ###
 const validarArchivos = (campo) => {
-    let files = campo.files
-    if (!files){
-        return AF.validarCampoVacio(campo)
-    };
+  let files = campo.files;
+  if (!files) {
+    return AF.validarCampoVacio(campo);
+  }
   let typeValid = true;
 
   for (const file of files) {
@@ -81,159 +136,251 @@ const validarArchivos = (campo) => {
     let fileFamily = file.type.split("/")[0];
     typeValid &&= fileFamily == "image" || file.type == "application/pdf";
   }
-  if(!typeValid){
-    return AF.setErrors("El archivo debe ser una imagen (JPEG, PNG, GIF, etc.) o un PDF",campo);
+  if (!typeValid) {
+    return AF.setErrors(
+      "El archivo debe ser una imagen (JPEG, PNG, GIF, etc.) o un PDF",
+      campo
+    );
   }
 
   // devolvemos la lógica AND de las validaciones.
-  return AF.validarTamanno(3,campo) && typeValid;
+  return AF.validarTamanno(3, campo) && typeValid;
 };
 
 //## VALIDACIONES DINAMICAS ##
 //validacion dinamica nombre
-nombreInput.addEventListener("input", () =>{ 
-    validarNombre(nombreInput)
+nombreInput.addEventListener("input", () => {
+  validarNombre(nombreInput);
 });
 nombreInput.addEventListener("blur", () => {
-    AF.validarCampoVacio(nombreInput)
+  AF.validarCampoVacio(nombreInput);
 });
 
 //validacion dinamica email
 emailInput.addEventListener("input", () => {
-    validarEmail(emailInput)
+  validarEmail(emailInput);
 });
 emailInput.addEventListener("blur", () => {
-    AF.validarCampoVacio(emailInput)
+  AF.validarCampoVacio(emailInput);
 });
 
 //validacion dinamica celular
 celularInput.addEventListener("input", () => {
-    validarCelular(celularInput)
+  validarCelular(celularInput);
 });
 
 //validacion dinamica region
-regionInput.addEventListener("change",() => {
-    validarRegion(regionInput)
+regionInput.addEventListener("change", () => {
+  validarRegion(regionInput);
 });
 
 //validacion dinamica comuna
-comunaInput.addEventListener("change",()=>{
-    validarComuna(regionInput,comunaInput)
+comunaInput.addEventListener("change", () => {
+  validarComuna(regionInput, comunaInput);
 });
 
-document.getElementById('form').addEventListener('input', (event) => {
-    if (event.target.matches('input[name="dispositivo[]"]')) {
-        validarDispositivo(event.target);
-    }
+document.getElementById("myForm").addEventListener("input", (event) => {
+  if (event.target.matches('input[name="dispositivo[]"]')) {
+    validarDispositivo(event.target);
+  }
 });
 
-document.getElementById('form').addEventListener('blur', (event) => {
-    if (event.target.matches('input[name="dispositivo[]"]')) {
-        AF.validarCampoVacio(event.target);
-    }
-}, true);
-
-document.getElementById('form').addEventListener('change', (event) => {
-    if (event.target.matches('select[name="tipo[]"]')) {
-        validarTipo(event.target);
-    }
+document.getElementById("myForm").addEventListener("blur", (event) => {
+  if (event.target.matches('input[name="dispositivo[]"]')) {
+    AF.validarCampoVacio(event.target);
+  }
 });
 
-document.getElementById('form').addEventListener('input', (event) => {
-    if (event.target.matches('input[name="uso[]"]')) {
-        validarTiempodeuso(event.target);
-    }
+document.getElementById("myForm").addEventListener("change", (event) => {
+  if (event.target.matches('select[name="tipo[]"]')) {
+    validarTipo(event.target);
+  }
 });
 
-document.getElementById('form').addEventListener('blur', (event) => {
-    if (event.target.matches('input[name="uso[]"]')) {
-        AF.validarCampoVacio(event.target);
-    }
-}, true);
-
-document.getElementById('form').addEventListener('change', (event) => {
-    if (event.target.matches('select[name="estado[]"]')) {
-        validarEstado(event.target);
-    }
+document.getElementById("myForm").addEventListener("input", (event) => {
+  if (event.target.matches('input[name="uso[]"]')) {
+    validarTiempodeuso(event.target);
+  }
 });
 
-document.getElementById('form').addEventListener('change', (event) => {
-    if (event.target.matches('input[name="archivos[]"]')) {
-        validarArchivos(event.target);
-    }
+document.getElementById("myForm").addEventListener("blur", (event) => {
+  if (event.target.matches('input[name="uso[]"]')) {
+    AF.validarCampoVacio(event.target);
+  }
+});
+
+document.getElementById("myForm").addEventListener("change", (event) => {
+  if (event.target.matches('select[name="estado[]"]')) {
+    validarEstado(event.target);
+  }
+});
+
+document.getElementById("myForm").addEventListener("change", (event) => {
+  if (event.target.matches('input[name="archivos[]"]')) {
+    validarArchivos(event.target);
+  }
 });
 
 const handleFormSubmit = (event) => {
+  console.log("Validating form...");
 
-    console.log("Validating form...");
+  const dispositivoInputs = document.getElementsByName("dispositivo[]");
+  const tipoInputs = document.getElementsByName("tipo[]");
+  const tiempodeusoInputs = document.getElementsByName("uso[]");
+  const estadoInputs = document.getElementsByName("estado[]");
+  const archivosInputs = document.getElementsByName("archivos[]");
 
-        const dispositivoInputs= document.getElementsByName("dispositivo[]");
-        const tipoInputs= document.getElementsByName("tipo[]");
-        const tiempodeusoInputs= document.getElementsByName("uso[]");
-        const estadoInputs= document.getElementsByName("estado[]");
-        const archivosInputs= document.getElementsByName("archivos[]");
+  // variables auxiliares de validación y función.
+  let invalidInputs = [];
+  let isValid = true;
+  const setInvalidInput = (inputName) => {
+    invalidInputs.push(inputName);
+    console.log(invalidInputs);
+    isValid &&= false;
+  };
+  //NOMBRE
+  if (!validarNombre(nombreInput)) {
+    setInvalidInput(nombreInput.name);
+  }
+  //EMAIL
+  if (!validarEmail(emailInput)) {
+    setInvalidInput(emailInput.name);
+  }
+  //CELULAR
+  if (!validarCelular(celularInput)) {
+    setInvalidInput(celularInput.name);
+  }
 
-    let isValid = true;
-    //NOMBRE
-    if (!validarNombre(nombreInput)) {
-        isValid = false;
-    }
-    //EMAIL
-    if (!validarEmail(emailInput)) {
-        isValid = false;
-    }
+  //REGION
+  if (!validarRegion(regionInput)) {
+    setInvalidInput(regionInput.name);
+  }
+  //COMUNA
+  if (!validarComuna(regionInput, comunaInput)) {
+    setInvalidInput(comunaInput.name);
+  }
 
-    //REGION
-    if(!validarRegion(regionInput)){
-        isValid = false;
+  //DISPOSITIVO
+  for (let i = 0; i < dispositivoInputs.length; i++) {
+    if (!validarDispositivo(dispositivoInputs[i])) {
+      let inputName = dispositivoInputs[i].name;
+      if (i > 0) {
+        inputName = inputName.replace(/\[\]$/, ` n${i + 1}`);
+      }
+      setInvalidInput(inputName.replace(/\[\]$/, ""));
     }
-    //COMUNA
-    if(!validarComuna(regionInput,comunaInput)){
-        isValid = false;
+  }
+  //TIPO
+  for (let i = 0; i < tipoInputs.length; i++) {
+    if (!validarTipo(tipoInputs[i])) {
+        let inputName = tipoInputs[i].name;
+      if (i > 0) {
+        inputName = inputName.replace(/\[\]$/, ` n${i + 1}`);
+      }
+      setInvalidInput(inputName.replace(/\[\]$/, ""));
     }
+  }
 
-
-    //DISPOSITIVO
-    for(let i=0;i<dispositivoInputs.length;i++){
-        if(!validarDispositivo(dispositivoInputs[i])){
-            isValid=false;
-        }
-    }
-    //TIPO
-    for(let i=0;i<tipoInputs.length;i++){
-        if(!validarTipo(tipoInputs[i])){
-            isValid=false;
-        }
-    }
-
-    //AÑOS DE USO
-    for(let i=0;i<tiempodeusoInputs.length;i++){
-        if(!validarTiempodeuso(tiempodeusoInputs[i])){
-            isValid=false;
-        }
-    }
+  //AÑOS DE USO
+  for (let i = 0; i < tiempodeusoInputs.length; i++) {
     
-
-    //ESTADO
-    for(let i=0;i<estadoInputs.length;i++){
-        if(!validarEstado(estadoInputs[i])){
-            isValid=false;
-        }
+    if (!validarTiempodeuso(tiempodeusoInputs[i])) {
+        let inputName = tiempodeusoInputs[i].name;
+      if (i > 0) {
+        inputName = inputName.replace(/\[\]$/, ` n${i + 1}`);
+      }
+      setInvalidInput(inputName.replace(/\[\]$/, ""));
     }
+  }
 
-    //ARCHIVOS
-    for(let i=0;i<archivosInputs.length;i++){
-        if(!validarArchivos(archivosInputs[i])){
-            isValid=false;
-        }
+  //ESTADO
+  for (let i = 0; i < estadoInputs.length; i++) {
+    if (!validarEstado(estadoInputs[i])) {
+        let inputName = estadoInputs[i].name;
+      if (i > 0) {
+        inputName = inputName.replace(/\[\]$/, ` n${i + 1}`);
+      }
+      setInvalidInput(inputName.replace(/\[\]$/, ""));
     }
-    if (isValid) {
-        if (confirm("Confirma el registro del formulario?")) {
-            document.querySelector("section").hidden = true;
-            document.getElementById("submited-form").style.display = "block";
-        }
-    }
+  }
 
+  //ARCHIVOS
+  for (let i = 0; i < archivosInputs.length; i++) {
+    if (!validarArchivos(archivosInputs[i])) {
+       let inputName = archivosInputs[i].name;
+      if (i > 0) {
+        inputName = inputName.replace(/\[\]$/, ` n${i + 1}`);
+      }
+      setInvalidInput(inputName.replace(/\[\]$/, ""));
+    }
+  }
+
+  // finalmente mostrar la validación
+  let validationBox = document.getElementById("val-box");
+  let validationMessageElem = document.getElementById("val-msg");
+  let validationListElem = document.getElementById("val-list");
+  let confirmationBox = document.getElementById("conf-box");
+  let confirmationMessage = document.getElementById("conf-msg");
+
+  if (!isValid) {
+    validationListElem.textContent = "";
+    // agregar elementos inválidos al elemento val-list.
+    for (let i = 0; i < invalidInputs.length; i++) {
+      let listElement = document.createElement("li");
+      listElement.innerText = invalidInputs[i];
+      validationListElem.append(listElement);
+    }
+    // establecer val-msg
+    validationMessageElem.innerText = "Los siguientes campos son inválidos:";
+
+    // aplicar estilos de error
+    validationBox.style.backgroundColor = "#ffdddd";
+    validationBox.style.borderLeftColor = "#f44336";
+
+    // hacer visible el mensaje de validación
+    validationBox.hidden = false;
+
+    confirmationBox.hidden = true;
+  } else {
+    // Ocultar el formulario
+    myForm.style.display = "none";
+
+    // establecer mensaje de éxito
+    validationMessageElem.innerText =
+      "¡Formulario válido! ¿Confirma que desea publicar esta donación?";
+    validationListElem.textContent = "";
+
+    console.log(confirmationMessage.value);
+    confirmationMessage.innerText = "Muchas gracias por su donación";
+
+    // aplicar estilos de éxito
+    validationBox.style.backgroundColor = "#ddffdd";
+    validationBox.style.borderLeftColor = "#4CAF50";
+
+    // Agregar botones para enviar el formulario o volver
+    let submitButton = document.createElement("button");
+    submitButton.innerText = "Si, confirmo";
+    submitButton.style.marginRight = "10px";
+    submitButton.addEventListener("click", () => {
+      // Se deberia enviar al backend aqui
+      validationBox.hidden = true;
+      confirmationBox.hidden = false;
+    });
+
+    let backButton = document.createElement("button");
+    backButton.innerText = "No, quiero volver al formulario";
+    backButton.addEventListener("click", () => {
+      // Mostrar el formulario nuevamente
+      myForm.style.display = "block";
+      validationBox.hidden = true;
+    });
+
+    validationListElem.appendChild(submitButton);
+    validationListElem.appendChild(backButton);
+
+    // hacer visible el mensaje de validación
+    validationBox.hidden = false;
+  }
 };
 
 const submitButton = document.getElementById("button-submit");
