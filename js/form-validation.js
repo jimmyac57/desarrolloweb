@@ -1,77 +1,6 @@
 
-
-//Funcion para colocar los mensajes de error
-const setErrors = (mensaje, campo, isError=true) =>{
-    if(isError){
-        campo.classList.add("campo-invalido");
-        campo.nextElementSibling.classList.add("error");
-        campo.nextElementSibling.innerText = mensaje ;
-        return false;
-    }else{
-        campo.classList.remove("campo-invalido");
-        campo.nextElementSibling.classList.remove("error");
-        campo.nextElementSibling.innerText = mensaje ;
-        return true;
-    }
-}
-//Funcion para validar si un campo esta vacio o no
-const validarCampoVacio = (campo) =>{
-    const valor = campo.value.trim();
-    if(valor.length==0 && !campo.required){
-        return setErrors("",campo,false);
-    }else if(valor==0){
-        return setErrors(`El campo ${campo.name} es obligatorio`,campo);
-    }else{
-        return false;
-    }
-}
-//Funcion para validar el formato de un campo
-const validarFormato = (regex,regexFeedback, min, max, campo) => {
-    const valor = campo.value.trim();
-    const nombreRegex = regex;
-    const minLength = min;
-    const maxLength = max;
-    if(valor.length==0){
-        return validarCampoVacio(campo);
-    }
-    else if (valor.length > 0 && valor.length < minLength) {
-        return setErrors(`El ${campo.name} debe tener al menos ` + minLength +` caracteres`,campo);
-    } 
-    else if (!nombreRegex.test(valor)) {
-        return setErrors(regexFeedback,campo);
-    }
-    else if (valor.length > maxLength) {
-        return setErrors(`El ${campo.name} debe tener como maximo `+ maxLength +` caracteres`,campo);
-    } 
-    else {
-        return setErrors("",campo,isError=false);
-    }
-};
-
-const validarTamanno = ( max,campo) => {
-
-    let valor=campo.files;
-    if(valor.length==0){
-        return validarCampoVacio(campo);
-    }
-    else if (valor.length > max) {
-        return setErrors(`La cantidad de archivos debe ser a lo más de ` + max ,campo);
-    } else {
-        return setErrors("",campo, isError=false);
-    }
-}
-
-const validarSelect = (opcionesvalidas,campo) => {
-    if(!campo) setErrors("La selección no es válida",campo);
-    if (!opcionesvalidas) {
-      return setErrors("El valor no coincide con el texto seleccionado",campo);
-    }
-    return setErrors("",campo,isError=false);
-}
-  
-  
-
-//# CAMPOS DEL FORMULARIO #
+//funciones auxiliares para hacer las validaciones
+import * as AF from './aux-functions.js';
 
 //## INFO CONTACTO ##
 const nombreInput = document.getElementById("nombre");
@@ -80,157 +9,71 @@ const celularInput = document.getElementById("celular");
 const regionInput = document.querySelector("#region");
 const comunaInput = document.querySelector('#comuna');
 
-//### EVENTOS ###
-
 //#### NOMBRE ####
 const validarNombre = (campo) => {
-    return validarFormato( regex= /^[A-Za-z\s]+$/,
-        regexFeedback="El formato solo permite caracteres literales",
-        minLength= 3, 
-        maxLength=80,
-        campo)
-}
-//validacion dinamica nombre
-nombreInput.addEventListener("input", () => 
-    validarNombre(nombreInput)
-);
-nombreInput.addEventListener("blur", () => 
-    validarCampoVacio(nombreInput)
-
-);
+    return AF.validarFormato(/^[A-Za-z\s]+$/,"El formato solo permite caracteres literales",3,80,campo)
+};
 //#### EMAIL ####
 const validarEmail = (campo) => {
-    return validarFormato( regex=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
-        regexFeedback="Debe cumplir con el formato de correo electrónico, tucorreo@dominio.TDL, TDL debe ser al menos 2 caracteres",
-        minLength= 5,
-        maxLength=30 ,
-        campo = emailInput)
-}
-//validacion dinamica email
-emailInput.addEventListener("input", () => 
-    validarEmail(emailInput)
-);
-emailInput.addEventListener("blur", () => 
-    validarCampoVacio(emailInput)
-);
-
+    return AF.validarFormato(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,"Debe cumplir con el formato de correo electrónico, tucorreo@dominio.com",5,30,campo = emailInput)
+};
 //#### CELULAR ####
 const validarCelular = (campo) =>{
-    return validarFormato( regex=/^[0-9]{3,15}$/,
-        regexFeedback="El formato solo permite numeros",
-        minLength= 3,
-        maxLength=15 ,
-        campo = celularInput);
-}
-//validacion dinamica celular
-celularInput.addEventListener("input", () => 
-    validarCelular(celularInput)
-);
-
+    return AF.validarFormato(/^[0-9]{3,15}$/,"El formato solo permite numeros",3,15,campo = celularInput);
+};
 //#### REGION ####
 const validarRegion = (campo) => {
     let textoVisible=campo.options[campo.selectedIndex].textContent;
     if(campo.value==0){
-        return validarCampoVacio(campo)
+        return AF.validarCampoVacio(campo)
     }
     let cond1 = regiones_comunas.regiones.find(region => region.id == campo.value);
     let cond2 = regiones_comunas.regiones.find(region => region.nombre == textoVisible);
-    return validarSelect(cond1==cond2,campo)
+    return AF.validarSelect(cond1==cond2,campo)
 };
-//validacion dinamica region
-regionInput.addEventListener("change",() => {
-    validarRegion(regionInput)
-});
-
-
 //#### COMUNA ####
 const validarComuna = (regionSelected,campo) => {
     let textoVisible=campo.options[campo.selectedIndex].textContent;
     if(campo.value==0){
-        return validarCampoVacio(campo)
+        return AF.validarCampoVacio(campo)
     }
     let regionSeleccionada = regiones_comunas.regiones.find(region => region.id == regionSelected.value);
     let cond1 = regionSeleccionada.comunas.find(comuna => comuna.id == campo.value);
     let cond2 = regionSeleccionada.comunas.find(comuna => comuna.nombre == textoVisible);
-    return validarSelect(cond1==cond2,campo)
-}
-comunaInput.addEventListener("change",()=>{
-    validarComuna(regionInput,comunaInput)
-});
-
-//## INFO DISPOSITIVO ##
-const dispositivoInput = document.getElementById("dispositivo");
-const tipoInput = document.getElementById("tipo");
-const tiempodeusoInput = document.getElementById("uso");
-const estadoInput = document.getElementById("estado");
-const archivosInput = document.querySelector("[name=archivos]")
-
-
+    return AF.validarSelect(cond1==cond2,campo)
+};
 //### DISPOSITIVO ###
 const validarDispositivo = (campo) => {
-    return validarFormato( regex= /^[A-Za-z\s]+$/,
-        regexFeedback="El formato solo permite caracteres literales",
-        minLength= 3, 
-        maxLength=80,
-        campo)
-}
-dispositivoInput.addEventListener("input", (e) => 
-    validarDispositivo(dispositivoInput)
-);
-dispositivoInput.addEventListener("blur", (e) => 
-    validarCampoVacio(dispositivoInput)
-);
+    return AF.validarFormato( /^[A-Za-z\s]+$/,"El formato solo permite caracteres literales",3,80,campo)
+};
 //### TIPO ###
 const validarTipo = (campo) => {
     let opcionElegida=campo.options[campo.selectedIndex].textContent
     if(campo.value==0){
-        return validarCampoVacio(campo)
+        return AF.validarCampoVacio(campo)
     }
     let opcionesvalidas=["Pantalla","Notebook","Tablet","Celular","Consola","Mouse","Teclado","Impresora","Parlante","Audífonos","Otro"]
-    return validarSelect(opcionesvalidas.includes(opcionElegida),campo)
-}
-tipoInput.addEventListener("change",() => {
-    validarTipo(tipoInput)
-})
-
+    return AF.validarSelect(opcionesvalidas.includes(opcionElegida),campo)
+};
 //### TIEMPO DE USO ###
 const validarTiempodeuso= (campo) => {
-    return validarFormato( regex= /^(?:[1-9]|[1-9][0-9])$/,
-                    regexFeedback="El formato solo permite caracteres numericos entre 1 y 99",
-                    minLength= 1, 
-                    maxLength=2,
-                    campo)
-}
-tiempodeusoInput.addEventListener("input", (e) => 
-    validarTiempodeuso(tiempodeusoInput)
-);
-tiempodeusoInput.addEventListener("blur", (e) => 
-    validarCampoVacio(tiempodeusoInput)
-);
-
+    return AF.validarFormato( /^(?:[1-9]|[1-9][0-9])$/,"El formato solo permite caracteres numericos entre 1 y 99",1,2,campo)
+};
 //### ESTADO ###
 const validarEstado = (campo) => {
     let opcionElegida=campo.options[campo.selectedIndex].textContent
     if(campo.value==0){
-        return validarCampoVacio(campo)
+        return AF.validarCampoVacio(campo)
     }
     let opcionesvalidas=["Funciona perfecto" , "Funciona a medias" , "No funciona"]
-    return validarSelect(opcionesvalidas.includes(opcionElegida),campo)
-}
-estadoInput.addEventListener("change",() => {
-    validarEstado(estadoInput)
-})
+    return AF.validarSelect(opcionesvalidas.includes(opcionElegida),campo)
+};
 //### ARCHIVOS ###
 const validarArchivos = (campo) => {
     let files = campo.files
     if (!files){
-        return validarCampoVacio(campo)
+        return AF.validarCampoVacio(campo)
     };
-
-  // validación del número de archivos
-  
-  
-  // validación del tipo de archivo
   let typeValid = true;
 
   for (const file of files) {
@@ -238,80 +81,151 @@ const validarArchivos = (campo) => {
     let fileFamily = file.type.split("/")[0];
     typeValid &&= fileFamily == "image" || file.type == "application/pdf";
   }
+  if(!typeValid){
+    return AF.setErrors("El archivo debe ser una imagen (JPEG, PNG, GIF, etc.) o un PDF",campo);
+  }
 
   // devolvemos la lógica AND de las validaciones.
-  return validarTamanno(3,campo) && typeValid;
-}
+  return AF.validarTamanno(3,campo) && typeValid;
+};
 
-archivosInput.addEventListener("change",()=>{
-    validarArchivos(archivosInput)
-})
+//## VALIDACIONES DINAMICAS ##
+//validacion dinamica nombre
+nombreInput.addEventListener("input", () =>{ 
+    validarNombre(nombreInput)
+});
+nombreInput.addEventListener("blur", () => {
+    AF.validarCampoVacio(nombreInput)
+});
+
+//validacion dinamica email
+emailInput.addEventListener("input", () => {
+    validarEmail(emailInput)
+});
+emailInput.addEventListener("blur", () => {
+    AF.validarCampoVacio(emailInput)
+});
+
+//validacion dinamica celular
+celularInput.addEventListener("input", () => {
+    validarCelular(celularInput)
+});
+
+//validacion dinamica region
+regionInput.addEventListener("change",() => {
+    validarRegion(regionInput)
+});
+
+//validacion dinamica comuna
+comunaInput.addEventListener("change",()=>{
+    validarComuna(regionInput,comunaInput)
+});
+
+document.getElementById('form').addEventListener('input', (event) => {
+    if (event.target.matches('input[name="dispositivo[]"]')) {
+        validarDispositivo(event.target);
+    }
+});
+
+document.getElementById('form').addEventListener('blur', (event) => {
+    if (event.target.matches('input[name="dispositivo[]"]')) {
+        AF.validarCampoVacio(event.target);
+    }
+}, true);
+
+document.getElementById('form').addEventListener('change', (event) => {
+    if (event.target.matches('select[name="tipo[]"]')) {
+        validarTipo(event.target);
+    }
+});
+
+document.getElementById('form').addEventListener('input', (event) => {
+    if (event.target.matches('input[name="uso[]"]')) {
+        validarTiempodeuso(event.target);
+    }
+});
+
+document.getElementById('form').addEventListener('blur', (event) => {
+    if (event.target.matches('input[name="uso[]"]')) {
+        AF.validarCampoVacio(event.target);
+    }
+}, true);
+
+document.getElementById('form').addEventListener('change', (event) => {
+    if (event.target.matches('select[name="estado[]"]')) {
+        validarEstado(event.target);
+    }
+});
+
+document.getElementById('form').addEventListener('change', (event) => {
+    if (event.target.matches('input[name="archivos[]"]')) {
+        validarArchivos(event.target);
+    }
+});
 
 const handleFormSubmit = (event) => {
 
     console.log("Validating form...");
 
+        const dispositivoInputs= document.getElementsByName("dispositivo[]");
+        const tipoInputs= document.getElementsByName("tipo[]");
+        const tiempodeusoInputs= document.getElementsByName("uso[]");
+        const estadoInputs= document.getElementsByName("estado[]");
+        const archivosInputs= document.getElementsByName("archivos[]");
+
     let isValid = true;
     //NOMBRE
-    if (!validarFormato(regex = /^[A-Za-z\s]+$/,
-                        regexFeedback="El formato solo permite caracteres",
-                        minLength= 3,
-                        maxLength= 80,
-                        campo= nombreInput)) {
+    if (!validarNombre(nombreInput)) {
         isValid = false;
     }
     //EMAIL
-    if (!validarFormato(regex=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
-                        regexFeedback="Debe cumplir con el formato de correo electrónico, tucorreo@dominio.TDL, TDL debe ser al menos 2 caracteres",
-                        minLength= 5,
-                        maxLength=30 ,
-                        campo = emailInput)) {
+    if (!validarEmail(emailInput)) {
         isValid = false;
     }
 
     //REGION
     if(!validarRegion(regionInput)){
-        console.log("regiooon")
         isValid = false;
     }
     //COMUNA
     if(!validarComuna(regionInput,comunaInput)){
-        console.log("comunaaa")
         isValid = false;
     }
 
 
     //DISPOSITIVO
-    if (!validarFormato(regex = /^[A-Za-z\s]+$/,
-        regexFeedback="El formato solo permite caracteres",
-        minLength= 3,
-        maxLength= 80,
-        campo= dispositivoInput)) {
-            console.log("dispositivooo")
-        isValid = false;
+    for(let i=0;i<dispositivoInputs.length;i++){
+        if(!validarDispositivo(dispositivoInputs[i])){
+            isValid=false;
+        }
     }
     //TIPO
-    if(!validarTipo(tipoInput)){
-        console.log("tipo")
-        isValid=false;
+    for(let i=0;i<tipoInputs.length;i++){
+        if(!validarTipo(tipoInputs[i])){
+            isValid=false;
+        }
     }
 
     //AÑOS DE USO
-    if(!validarTiempodeuso(tiempodeusoInput)){
-        console.log("tiempoooo")
-        isValid=false;
+    for(let i=0;i<tiempodeusoInputs.length;i++){
+        if(!validarTiempodeuso(tiempodeusoInputs[i])){
+            isValid=false;
+        }
     }
+    
 
     //ESTADO
-    if(!validarEstado(estadoInput)){
-        console.log("estadoooo")
-        isValid=false;
+    for(let i=0;i<estadoInputs.length;i++){
+        if(!validarEstado(estadoInputs[i])){
+            isValid=false;
+        }
     }
 
     //ARCHIVOS
-    if(!validarArchivos(archivosInput)){
-        console.log("archivos")
-        isValid=false;
+    for(let i=0;i<archivosInputs.length;i++){
+        if(!validarArchivos(archivosInputs[i])){
+            isValid=false;
+        }
     }
     if (isValid) {
         if (confirm("Confirma el registro del formulario?")) {
