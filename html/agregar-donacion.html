@@ -9,7 +9,7 @@
 <body>
   <h1>Formulario</h1>
     <section>
-      <form>
+      <form id="form">
         <!--##### INFO CONTACTO ######-->
         <div class="info-contacto">
         <h2>Información de contacto</h2>
@@ -33,15 +33,16 @@
           <!--###### DISPOSITIVO ######-->
           <div class="info-dispositivo">
           <h2>Información dispositivo</h2>
-
+            <div id="contenedor-dispositivo">
+              <div class="dispositivo">
           <label for="dispositivo"><em>Nombre del dispositivo:</em></label>
-          <input type="text" id="dispositivo" name="dispositivo" required><span></span><br><br>
+          <input type="text" id="dispositivo" name="dispositivo[]" required><span></span><br><br>
 
           <label for="descripcion">Descripción:</label>
           <textarea id="descripcion" rows="4" cols="50" name="descripcion" required></textarea><span></span><br><br>
 
           <label for="tipo">Tipo:</label>
-          <select type="select" id="tipo" name="tipo" required>
+          <select type="select" id="tipo" name="tipo[]" required>
             <option value="0">Seleccione una opción</option>
             <option value="1">Pantalla</option>
             <option value="2">Notebook</option>
@@ -58,10 +59,10 @@
           <br><br>
 
           <label for="uso">Años de uso:</label>
-          <input type="number" size="3" maxlength="" min="1" max="99" id="uso" name="uso" required><span></span><br><br>
+          <input type="number" size="3" maxlength="" min="1" max="99" id="uso" name="uso[]" required><span></span><br><br>
 
           <label for="estado">Estado de funcionamiento:</label>
-          <select type="text" id="estado" name="estado" required>
+          <select type="text" id="estado" name="estado[]" required>
             <option value="0">Seleccione una opción</option>
             <option value="1">Funciona perfecto</option>
             <option value="2">Funciona a medias</option>
@@ -69,8 +70,10 @@
           </select><span></span><br><br>
 
           <label for="archivos">Fotos del producto:</label>
-          <input type="file" id="archivos" name="archivos" multiple required><span></span><br><br>
-
+          <input type="file" id="archivos" name="archivos[]" multiple required><span></span><br><br>
+            </div>
+            </div>
+          <button type="button" id="addDeviceBtn">Añadir otro dispositivo</button>
           <div class="class-form__button">
             <button class="button-submit" type="button" id="button-submit">
               Agregar Pedido
@@ -79,8 +82,9 @@
         </div>
       </form>
   </section>
-    <script src="../js/form-validation.js"></script>
+    <script type="module" src="../js/form-validation.js"></script>
     <script src="../js/regiones-comunas.js"></script>
     <script src="../js/select-Reg-Com.js"></script>
+    <script src="../js/otro-dispositivo.js"></script>
 </body>
 </html>
