@@ -15,7 +15,7 @@ body {
   display: block;
 }
 
-#device-info {
+#contenedor-dispositivo {
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
@@ -121,7 +121,9 @@ a.button {
 a.button:hover {
   background-color: #0056b3;
 }
-p, .comentario-body, #device-info {
+
+/* con esto hacemos que no se nos salga del contenedor*/
+p, .comentario-body, #contenedor-dispositivo {
   word-break: break-all;
 }
 
