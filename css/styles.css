@@ -81,8 +81,7 @@ a.button {
   cursor: pointer;
 }
 
-button:hover,
-a.button:hover {
+button:hover{
   background-color: #218838;
 }
 
@@ -143,4 +142,30 @@ a.button:hover {
   input[type="number"]{
     width: 20%;
   }
+}
+
+img{
+  width: 120px;
+  height: 120px;
+}
+
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espacio entre los botones */
+}
+
+.button-container .button {
+  background-color: #007bff; /* Color del fondo del botón */
+  color: #fff; /* Color del texto del botón */
+  text-align: center; /* Centrar texto en el botón */
+  padding: 10px 20px; /* Espaciado dentro del botón */
+  border-radius: 5px; /* Bordes redondeados del botón */
+  text-decoration: none; /* Sin subrayado */
+  font-size: 16px; /* Tamaño del texto */
+}
+
+.button-container .button:hover {
+  background-color: #0056b3; /* Color de fondo en hover */
 }
