@@ -67,7 +67,7 @@ const devices = {
     comuna: "San Bernardo",
     dispositivo: "GOLF powerbank P20-LCDPD",
     tipo: "Otro",
-    uso: "1 año",
+    uso: "1",
     status: "Funciona a medias",
     img: "../img/powerbank_golf_20000mA.jpg",
     comentario: `
@@ -100,7 +100,7 @@ const devices = {
     comuna: "Quillota",
     dispositivo: "ACER aspire 4733Z",
     tipo: "Notebook",
-    uso: "3 años",
+    uso: "3",
     status: "No funciona",
     img: "../img/acer_aspire_4733Z.jpg",
     comentario: `
@@ -133,7 +133,7 @@ const devices = {
     comuna: "San Bernardo",
     dispositivo: "Brother DCP-T710W",
     tipo: "Impresora",
-    uso: "2 años",
+    uso: "2",
     status: "Funciona a medias",
     img: "../img/impresora_brother_DCP_T710W.jpg",
     comentario: `
@@ -166,7 +166,7 @@ const devices = {
     comuna: "Antofagasta",
     dispositivo: "JBL QUANTUM 300",
     tipo: "Audífonos",
-    uso: "1 año",
+    uso: "1",
     status: "Funciona perfecto",
     img: "../img/audifonosjbl.jpg",
     comentario: `
@@ -199,7 +199,7 @@ const devices = {
     comuna: "Iquique",
     dispositivo: "ASUS TUF GAMING F15",
     tipo: "Notebook",
-    uso: "6 meses",
+    uso: "3",
     status: "Funciona perfecto",
     img: "../img/notebook_asus.jpg",
     comentario: `
@@ -246,7 +246,7 @@ if (deviceInfo) {
             <h2>Información del dispositivo</h2>
             <p>Dispositivo: ${deviceInfo.dispositivo}</p>
             <p>Tipo: ${deviceInfo.tipo || "No disponible"}</p>
-            <p>Tiempo de uso: ${deviceInfo.uso || "No disponible"}</p>
+            <p>Años de uso: ${deviceInfo.uso || "No disponible"}</p>
             <p>Estado de funcionamiento: ${deviceInfo.status}</p>
             <p>Fotos del producto</p>
             <img id="${deviceId}" class="zoomin" src="${deviceInfo.img}" alt="${
@@ -267,9 +267,14 @@ if (deviceInfo) {
       <button type="button" id="addComentarioBtn">
           Agregar comentario
         </button>
+
+        <div>
+            <a class="volver-button" href="../html/ver-dispositivos.html"> Volver </a>
+          </div>
         <div>
             <a class="button" href="../html/index.html">Volver al inicio</a>
           </div>
+          
         <div id="exito" class="exito" hidden><em>El comentario se agregó con éxito</em></div>
         </fieldset>
   </form>`;

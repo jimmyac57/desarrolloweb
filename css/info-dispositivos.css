@@ -96,22 +96,27 @@ textarea {
 }
 
 button ,
-a.button{
+a.button,
+a.volver-button{
   display: inline-block;
   padding: 10px 20px;
   margin-top: 10px;
   margin-right: 10px;
   font-size: 16px;
   color: #fff;
-  background-color: #28a745;
   border: none;
   border-radius: 5px;
   text-decoration: none;
   cursor: pointer;
 }
 
+button{
+  background-color: #ffc107;
+}
+
 button:hover {
-  background-color: #218838;
+  background-color: #e0a800;
+  
 }
 
 a.button {
@@ -121,6 +126,16 @@ a.button {
 a.button:hover {
   background-color: #0056b3;
 }
+
+a.volver-button {
+  background-color: #28a745;
+}
+
+a.volver-button:hover {
+  background-color: #218838;
+}
+
+
 
 /* con esto hacemos que no se nos salga del contenedor*/
 p, .comentario-body, #contenedor-dispositivo {
