@@ -60,15 +60,12 @@ document.getElementById('addDeviceBtn').addEventListener('click', () => {
     const id5 =   generateUniqueId("estado");
     const id6 =   generateUniqueId("archivos");
 
-    // Generar HTML para el nuevo dispositivo
     const nuevoDispositivoHTML = crearInputs(id, id2, id3, id4, id5,id6,numerodispositivo);
     
-    // Crear un nuevo contenedor y añadir el HTML generado
     const nuevoDispositivo = document.createElement('div');
     nuevoDispositivo.className = 'dispositivo';
     nuevoDispositivo.innerHTML = nuevoDispositivoHTML;
-    
-    // Añadir el nuevo dispositivo al contenedor principal
+
     contenedorDispositivo.appendChild(nuevoDispositivo);
 
     numerodispositivo++;

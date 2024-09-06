@@ -1,9 +1,67 @@
-import * as AF from "./aux-functions.js";
+const setErrors = (mensaje, campo, isError = true) => {
+  if (isError) {
+    campo.classList.add("campo-invalido");
+    campo.nextElementSibling.classList.add("error");
+    campo.nextElementSibling.innerText = mensaje;
+    return false;
+  } else {
+    campo.classList.remove("campo-invalido");
+    campo.nextElementSibling.classList.remove("error");
+    campo.nextElementSibling.innerText = mensaje;
+    return true;
+  }
+};
+
+const validarCampoVacio = (campo) => {
+  const valor = campo.value.trim();
+  if (valor.length == 0 && !campo.required) {
+    return setErrors("", campo, false);
+  } else if (valor == 0) {
+    return setErrors(
+      `El campo ${campo.name.replace(/\[\]$/, "")} es obligatorio`,
+      campo
+    );
+  } else {
+    return false;
+  }
+};
+
+const validarFormato = (regex, regexFeedback, min, max, campo) => {
+  const valor = campo.value.trim();
+  const nombreRegex = regex;
+  const minLength = min;
+  const maxLength = max;
+  if (valor.length == 0) {
+    return validarCampoVacio(campo);
+  } else if (valor.length > 0 && valor.length < minLength) {
+    return setErrors(
+      `El ${campo.name.replace(/\[\]$/, "")} debe tener al menos ` +
+        minLength +
+        ` caracteres`,
+      campo
+    );
+  } else if (!nombreRegex.test(valor)) {
+    return setErrors(regexFeedback, campo);
+  } else if (valor.length > maxLength) {
+    return setErrors(
+      `El ${campo.name.replace(/\[\]$/, "")} debe tener como maximo ` +
+        maxLength +
+        ` caracteres`,
+      campo
+    );
+  } else {
+    return setErrors("", campo, false);
+  }
+};
+
+
+
+
 
 const devices = {
   dispositivo1: {
     nombre: "Jimmy Aguilera",
-    email: "jimmy.aguilera010699@gmail.com",
+    email: "jimmyaguilera010699@gmail.com",
     celular: "75136833",
     region: "Metropolitana de Santiago",
     comuna: "San Bernardo",
@@ -12,22 +70,64 @@ const devices = {
     uso: "1 año",
     status: "Funciona a medias",
     img: "../img/powerbank_golf_20000mA.jpg",
+    comentario: `
+            <h3>Comentarios</h3>
+            <div class="comentario">
+                <div class="comentario-header">
+                    <span>@user0123</span>
+                    <span>22/03/23</span>
+                </div>
+                <div class="comentario-body">
+                    carga de pana
+                </div>
+            </div>
+            <div class="comentario">
+                <div class="comentario-header">
+                    <span>@anonimouse</span>
+                    <span>22/03/24</span>
+                </div>
+                <div class="comentario-body">
+                    da pa 3 cargas, casi 4
+                </div>
+            </div>
+  `,
   },
   dispositivo2: {
-    nombre: "ACER aspire 4733Z",
-    email: "acer@example.com",
+    nombre: "Ptolomeo",
+    email: "mipc@acer.cl",
     celular: "12345678",
     region: "Valparaíso",
     comuna: "Quillota",
     dispositivo: "ACER aspire 4733Z",
-    tipo: "Computadora",
+    tipo: "Notebook",
     uso: "3 años",
     status: "No funciona",
     img: "../img/acer_aspire_4733Z.jpg",
+    comentario: `
+            <h3>Comentarios</h3>
+            <div class="comentario">
+                <div class="comentario-header">
+                    <span>@pcmaster3000</span>
+                    <span>01/01/22</span>
+                </div>
+                <div class="comentario-body">
+                    no corre el lol
+                </div>
+            </div>
+            <div class="comentario">
+                <div class="comentario-header">
+                    <span>@goblin46</span>
+                    <span>23/05/23</span>
+                </div>
+                <div class="comentario-body">
+                    ta bonito
+                </div>
+            </div>
+  `,
   },
   dispositivo3: {
-    nombre: "Brother DCP-T710W",
-    email: "brother@example.com",
+    nombre: "Luis Jara",
+    email: "luchitojara@hotmail.cl",
     celular: "87654321",
     region: "Metropolitana de Santiago",
     comuna: "San Bernardo",
@@ -36,49 +136,108 @@ const devices = {
     uso: "2 años",
     status: "Funciona a medias",
     img: "../img/impresora_brother_DCP_T710W.jpg",
+    comentario: `
+            <h3>Comentarios</h3>
+            <div class="comentario">
+                <div class="comentario-header">
+                    <span>@student777</span>
+                    <span>05/03/21</span>
+                </div>
+                <div class="comentario-body">
+                    despues de 3 años se me acabó la tinta recien
+                </div>
+            </div>
+            <div class="comentario">
+                <div class="comentario-header">
+                    <span>@primeraimpresion57</span>
+                    <span>23/03/23</span>
+                </div>
+                <div class="comentario-body">
+                    tenia una de las baratas y no rinde ni de cerca como esta
+                </div>
+            </div>
+  `,
   },
   dispositivo4: {
     nombre: "Andrés Iniesta",
     email: "barcelonafc@gmail.com",
     celular: "65432100",
-    region: "Antofagasta",
+    region: "Región de Antofagasta",
     comuna: "Antofagasta",
     dispositivo: "JBL QUANTUM 300",
     tipo: "Audífonos",
     uso: "1 año",
     status: "Funciona perfecto",
     img: "../img/audifonosjbl.jpg",
+    comentario: `
+            <h3>Comentarios</h3>
+            <div class="comentario">
+                <div class="comentario-header">
+                    <span>@noteescucho</span>
+                    <span>22/03/22</span>
+                </div>
+                <div class="comentario-body">
+                    que pena que no sean inalambricos
+                </div>
+            </div>
+            <div class="comentario">
+                <div class="comentario-header">
+                    <span>@fanjbl300</span>
+                    <span>22/03/24</span>
+                </div>
+                <div class="comentario-body">
+                    son los mejores que he tenido
+                </div>
+            </div>
+  `,
   },
   dispositivo5: {
-    nombre: "ASUS TUF GAMING F15",
-    email: "asus@example.com",
+    nombre: "vegeta",
+    email: "vegeta777@outlook.com",
     celular: "32109876",
     region: "Tarapacá",
     comuna: "Iquique",
     dispositivo: "ASUS TUF GAMING F15",
-    tipo: "Computadora",
+    tipo: "Notebook",
     uso: "6 meses",
     status: "Funciona perfecto",
     img: "../img/notebook_asus.jpg",
+    comentario: `
+            <h3>Comentarios</h3>
+            <div class="comentario">
+                <div class="comentario-header">
+                    <span>@usuario12311</span>
+                    <span>22/03/23</span>
+                </div>
+                <div class="comentario-body">
+                    nah el medio pcsito
+                </div>
+            </div>
+            <div class="comentario">
+                <div class="comentario-header">
+                    <span>@gamer300</span>
+                    <span>22/03/24</span>
+                </div>
+                <div class="comentario-body">
+                    pesa caleta siii
+                </div>
+            </div>
+  `,
   },
 };
-
 
 function getHash() {
   return window.location.hash.substring(1);
 }
 
-
 const deviceId = getHash();
-
 
 const deviceInfo = devices[deviceId];
 
 if (deviceInfo) {
-  
   const deviceHtml = `
             <h2>Información de contacto</h2>
-            <p>${deviceInfo.nombre}</p>
+            <p>Nombre: ${deviceInfo.nombre}</p>
             <p>Email: ${deviceInfo.email}</p>
             <p>Celular: ${deviceInfo.celular}</p>
             <p>Región: ${deviceInfo.region}</p>
@@ -89,28 +248,9 @@ if (deviceInfo) {
             <p>Tiempo de uso: ${deviceInfo.uso || "No disponible"}</p>
             <p>Estado de funcionamiento: ${deviceInfo.status}</p>
             <p>Fotos del producto</p>
-            <img id="${deviceId}" class="zoomin" src="${deviceInfo.img}" alt="${deviceInfo.dispositivo}" width="640" height="480" />`;
-  const comentariosHtml = `
-            <h3>Comentarios</h3>
-            <div class="comentario">
-                <div class="comentario-header">
-                    <span>@usuario123</span>
-                    <span>22-03-23</span>
-                </div>
-                <div class="comentario-body">
-                    asdda
-                </div>
-            </div>
-            <div class="comentario">
-                <div class="comentario-header">
-                    <span>@anonimouse</span>
-                    <span>22-03-24</span>
-                </div>
-                <div class="comentario-body">
-                    ta wenardo
-                </div>
-            </div>
-  `;
+            <img id="${deviceId}" class="zoomin" src="${deviceInfo.img}" alt="${
+    deviceInfo.dispositivo
+  }" style="width:640px;height:480px;" />`;
 
   const formularioHtml = `
   <div id="contenedor-comentarios"></div>
@@ -120,21 +260,25 @@ if (deviceInfo) {
       <label for="comentarista"><em>Nombre:</em></label>
       <input type="text" id="comentarista" name="nombre" minlength="3" maxlength="80" required><span></span> <br><br>
 
-      <textarea name="comentario" id="comentario" cols="50" rows="4" required></textarea><span></span><br><br>
+      <label for="comentario"> <em>Comentario:</em> </label>
+      <textarea name="comentario" id="comentario" cols="50" rows="4" maxlength="200" required></textarea><span></span><br><br>
 
       <button type="button" id="addComentarioBtn">
           Agregar comentario
         </button>
+        <div>
+            <a class="button" href="../html/index.html">Volver al inicio</a>
+          </div>
         <div id="exito" class="exito" hidden><em>El comentario se agregó con éxito</em></div>
         </fieldset>
   </form>`;
 
   document.getElementById("device-info").innerHTML = deviceHtml;
-  document.getElementById("device-info").innerHTML += comentariosHtml;
+  document.getElementById("device-info").innerHTML += deviceInfo.comentario;
   document.getElementById("device-info").innerHTML += formularioHtml;
 
   const validarNombre = (campo) => {
-    return AF.validarFormato(
+    return validarFormato(
       /^[a-zA-Z0-9]+$/,
       "El nombre solo acepta caracteres literales y numéricos",
       3,
@@ -144,7 +288,7 @@ if (deviceInfo) {
   };
 
   const validarComentario = (campo) => {
-    return AF.validarFormato(
+    return validarFormato(
       /^[a-zA-Z0-9\s]+$/,
       "El comentario solo acepta caracteres literales y numéricos",
       5,
@@ -194,11 +338,16 @@ if (deviceInfo) {
     }
 
     if (isValid) {
+      const fecha = new Date();
+      const opciones = { day: "2-digit", month: "2-digit", year: "2-digit" };
+      const fechaFormateada = fecha.toLocaleDateString("es-ES", opciones);
+      console.log(fechaFormateada);
+
       const nuevoComentario = (nombre, comentario) => `
             <div class="comentario">
                 <div class="comentario-header">
                     <span>@${nombre}</span>
-                    <span>${new Date().toLocaleDateString()}</span>
+                    <span class="date">${fechaFormateada}</span>
                 </div>
                 <div class="comentario-body">
                     ${comentario}
@@ -206,21 +355,21 @@ if (deviceInfo) {
             </div>
         `;
 
-      document.getElementById("contenedor-comentarios").innerHTML += nuevoComentario(
-        nombre.value,
-        comentario.value
-      );
-      document.getElementById("exito").hidden=false;
+      document.getElementById("contenedor-comentarios").innerHTML +=
+        nuevoComentario(nombre.value, comentario.value);
+      document.getElementById("exito").hidden = false;
 
       nombre.value = "";
       comentario.value = "";
-    }
-    else{
-        document.getElementById("exito").hidden=true;
+    } else {
+      document.getElementById("exito").hidden = true;
     }
   };
 
-  document.getElementById("addComentarioBtn").addEventListener("click", handleFormSubmit);
+  document
+    .getElementById("addComentarioBtn")
+    .addEventListener("click", handleFormSubmit);
 } else {
-  document.getElementById("device-info").innerHTML = "<p>Dispositivo no encontrado.</p>";
+  document.getElementById("device-info").innerHTML =
+    "<p>Dispositivo no encontrado.</p>";
 }
