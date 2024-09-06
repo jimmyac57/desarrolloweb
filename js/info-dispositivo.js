@@ -54,8 +54,8 @@ const validarFormato = (regex, regexFeedback, min, max, campo) => {
   }
 };
 
-
-
+//aqui se va a poner la info del dispositivo seleccionado en ver-dispositivos.html
+const contenedor = document.getElementById("contenedor-dispositivo")
 
 
 const devices = {
@@ -226,7 +226,8 @@ const devices = {
   },
 };
 
-function getHash() {
+//funcion para tomar el id que enviamos desde ver-dispositivos.html
+const getHash = () => {
   return window.location.hash.substring(1);
 }
 
@@ -273,9 +274,10 @@ if (deviceInfo) {
         </fieldset>
   </form>`;
 
-  document.getElementById("device-info").innerHTML = deviceHtml;
-  document.getElementById("device-info").innerHTML += deviceInfo.comentario;
-  document.getElementById("device-info").innerHTML += formularioHtml;
+  
+  contenedor.innerHTML = deviceHtml;
+  contenedor.innerHTML += deviceInfo.comentario;
+  contenedor.innerHTML += formularioHtml;
 
   const validarNombre = (campo) => {
     return validarFormato(
@@ -370,6 +372,6 @@ if (deviceInfo) {
     .getElementById("addComentarioBtn")
     .addEventListener("click", handleFormSubmit);
 } else {
-  document.getElementById("device-info").innerHTML =
+  contenedor.innerHTML =
     "<p>Dispositivo no encontrado.</p>";
 }

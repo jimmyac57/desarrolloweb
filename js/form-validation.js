@@ -257,43 +257,45 @@ comunaInput.addEventListener("change", () => {
   validarComuna(regionInput, comunaInput);
 });
 
-document.getElementById("myForm").addEventListener("input", (event) => {
+const myForm = document.getElementById("myForm");
+
+myForm.addEventListener("input", (event) => {
   if (event.target.matches('input[name="dispositivo[]"]')) {
     validarDispositivo(event.target);
   }
 });
 
-document.getElementById("myForm").addEventListener("blur", (event) => {
+myForm.addEventListener("blur", (event) => {
   if (event.target.matches('input[name="dispositivo[]"]')) {
     validarCampoVacio(event.target);
   }
 });
 
-document.getElementById("myForm").addEventListener("change", (event) => {
+myForm.addEventListener("change", (event) => {
   if (event.target.matches('select[name="tipo[]"]')) {
     validarTipo(event.target);
   }
 });
 
-document.getElementById("myForm").addEventListener("input", (event) => {
+myForm.addEventListener("input", (event) => {
   if (event.target.matches('input[name="uso[]"]')) {
     validarTiempodeuso(event.target);
   }
 });
 
-document.getElementById("myForm").addEventListener("blur", (event) => {
+myForm.addEventListener("blur", (event) => {
   if (event.target.matches('input[name="uso[]"]')) {
     validarCampoVacio(event.target);
   }
 });
 
-document.getElementById("myForm").addEventListener("change", (event) => {
+myForm.addEventListener("change", (event) => {
   if (event.target.matches('select[name="estado[]"]')) {
     validarEstado(event.target);
   }
 });
 
-document.getElementById("myForm").addEventListener("change", (event) => {
+myForm.addEventListener("change", (event) => {
   if (event.target.matches('input[name="archivos[]"]')) {
     validarArchivos(event.target);
   }
