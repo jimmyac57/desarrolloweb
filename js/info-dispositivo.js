@@ -60,10 +60,10 @@ const contenedor = document.getElementById("contenedor-dispositivo")
 
 const devices = {
   dispositivo1: {
-    nombre: "Jimmy Aguilera",
+    nombre: "Jimmyneitor",
     email: "jimmyaguilera010699@gmail.com",
     celular: "75136833",
-    region: "Metropolitana de Santiago",
+    region: "Región Metropolitana de Santiago",
     comuna: "San Bernardo",
     dispositivo: "GOLF powerbank P20-LCDPD",
     tipo: "Otro",
@@ -96,7 +96,7 @@ const devices = {
     nombre: "Ptolomeo",
     email: "mipc@acer.cl",
     celular: "12345678",
-    region: "Valparaíso",
+    region: "Región de Valparaíso",
     comuna: "Quillota",
     dispositivo: "ACER aspire 4733Z",
     tipo: "Notebook",
@@ -129,7 +129,7 @@ const devices = {
     nombre: "Luis Jara",
     email: "luchitojara@hotmail.cl",
     celular: "87654321",
-    region: "Metropolitana de Santiago",
+    region: "Región Metropolitana de Santiago",
     comuna: "San Bernardo",
     dispositivo: "Brother DCP-T710W",
     tipo: "Impresora",
@@ -195,7 +195,7 @@ const devices = {
     nombre: "vegeta",
     email: "vegeta777@outlook.com",
     celular: "32109876",
-    region: "Tarapacá",
+    region: "Región de Tarapacá",
     comuna: "Iquique",
     dispositivo: "ASUS TUF GAMING F15",
     tipo: "Notebook",
@@ -262,7 +262,8 @@ if (deviceInfo) {
       <input type="text" id="comentarista" name="nombre" minlength="3" maxlength="80" required><span></span> <br><br>
 
       <label for="comentario"> <em>Comentario:</em> </label>
-      <textarea name="comentario" id="comentario" cols="50" rows="4" maxlength="200" required></textarea><span></span><br><br>
+      <textarea name="comentario" id="comentario" cols="50" rows="4" maxlength="200" required></textarea>
+      <span></span><br><br>
 
       <button type="button" id="addComentarioBtn">
           Agregar comentario
