@@ -315,7 +315,6 @@ const handleFormSubmit = (event) => {
   let isValid = true;
   const setInvalidInput = (inputName) => {
     invalidInputs.push(inputName);
-    console.log(invalidInputs);
     isValid &&= false;
   };
   //NOMBRE
@@ -431,7 +430,6 @@ const handleFormSubmit = (event) => {
       "¡Formulario válido! ¿Confirma que desea publicar esta donación?";
     validationListElem.textContent = "";
 
-    console.log(confirmationMessage.value);
     confirmationMessage.innerText = "Muchas gracias por su donación";
 
     // aplicar estilos de éxito
