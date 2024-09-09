@@ -1,0 +1,147 @@
+body {
+  font-family: "Fira Code", monospace;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.campo-invalido {
+  border: solid 1px red;
+  box-shadow: 0 0 10px red;
+}
+
+.error {
+  color: red;
+  display: block;
+}
+
+#contenedor-dispositivo {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+h3 {
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+p {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+img {
+  display: block;
+  margin: 20px 0;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+#error {
+  color: #d9534f;
+  font-size: 18px;
+  text-align: center;
+}
+
+img.zoomin:hover {
+  cursor: zoom-in;
+}
+img.zoomout:hover {
+  cursor: zoom-out;
+}
+
+.comentario {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.comentario-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.comentario-body {
+  margin-top: 10px;
+}
+
+input[type="text"],
+textarea {
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+button ,
+a.button,
+a.volver-button{
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button{
+  background-color: #ffc107;
+}
+
+button:hover {
+  background-color: #e0a800;
+  
+}
+
+a.button {
+  background-color: #007bff;
+}
+
+a.button:hover {
+  background-color: #0056b3;
+}
+
+a.volver-button {
+  background-color: #28a745;
+}
+
+a.volver-button:hover {
+  background-color: #218838;
+}
+
+
+
+/* con esto hacemos que no se nos salga del contenedor*/
+p, .comentario-body, #contenedor-dispositivo {
+  word-break: break-all;
+}
+
+.date {
+  white-space: nowrap; /* Evita que la fecha se rompa */
+}
