@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Jimmy Aguilera">
+    <title>Ver dispositivos</title>
+    <link rel="stylesheet" href="../css/ver-dispositivo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
+      rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Dispositivos</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Nombre Dispositivo</th>
+                    <th>Estado</th>
+                    <th>Comuna</th>
+                    <th>Fotos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-id="dispositivo1" onclick="redirect(this)">
+                    <td>Otro</td>
+                    <td>GOLF powerbank P20-LCDPD</td>
+                    <td>Funciona a medias</td>
+                    <td>San Bernardo</td>
+                    <td><img src="../img/powerbank_golf_20000mA.jpg" alt="powerbank golf"></td>
+                </tr>
+                <tr data-id="dispositivo2" onclick="redirect(this)">
+                    <td>Notebook</td>
+                    <td>ACER aspire 4733Z</td>
+                    <td>No funciona</td>
+                    <td>Quillota</td>
+                    <td><img src="../img/acer_aspire_4733Z.jpg" alt="notebook acer aspire"></td>
+                </tr>
+                <tr data-id="dispositivo3" onclick="redirect(this)">
+                    <td>Impresora</td>
+                    <td>Brother DCP-T710W</td>
+                    <td>Funciona a medias</td>
+                    <td>San Bernardo</td>
+                    <td><img src="../img/impresora_brother_DCP_T710W.jpg" alt="impresora brother"></td>
+                </tr>
+                <tr data-id="dispositivo4" onclick="redirect(this)">
+                    <td>Audífonos</td>
+                    <td>JBL QUANTUM 300</td>
+                    <td>Funciona perfecto</td>
+                    <td>Antofagasta</td>
+                    <td><img src="../img/audifonosjbl.jpg" alt="audifonos jbl"></td>
+                </tr>
+                <tr data-id="dispositivo5" onclick="redirect(this)">
+                    <td>Notebook</td>
+                    <td>ASUS TUF GAMING F15</td>
+                    <td>Funciona perfecto</td>
+                    <td>Iquique</td>
+                    <td><img src="../img/notebook_asus.jpg" alt="notebook asus"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <a class="button" href="../html/index.html">Volver al inicio</a>
+          </div>
+    </div>
+    <script src="../js/ver-dispositivos.js"></script>
+</body>
+</html>
+
+
