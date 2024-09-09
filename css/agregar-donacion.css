@@ -153,19 +153,19 @@ img{
 .button-container {
   display: flex;
   justify-content: center;
-  gap: 10px; /* Espacio entre los botones */
+  gap: 10px; 
 }
 
 .button-container .button {
-  background-color: #007bff; /* Color del fondo del botón */
-  color: #fff; /* Color del texto del botón */
-  text-align: center; /* Centrar texto en el botón */
-  padding: 10px 20px; /* Espaciado dentro del botón */
-  border-radius: 5px; /* Bordes redondeados del botón */
-  text-decoration: none; /* Sin subrayado */
-  font-size: 16px; /* Tamaño del texto */
+  background-color: #007bff; 
+  color: #fff; 
+  text-align: center; 
+  padding: 10px 20px;
+  border-radius: 5px; 
+  text-decoration: none; 
+  font-size: 16px; 
 }
 
 .button-container .button:hover {
-  background-color: #0056b3; /* Color de fondo en hover */
+  background-color: #0056b3; 
 }
