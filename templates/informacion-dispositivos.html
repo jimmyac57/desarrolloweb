@@ -1,23 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Jimmy Aguilera">
-    <title>Información Dispositivo</title>
+{% extends 'base.html'%}
+{% block title%}
+  Información Dispositivo
+{% endblock %}
+{% block styles %}
     <link
       rel="stylesheet"
       type="text/css"
-      href="../css/info-dispositivos.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
-      rel="stylesheet">
-  </head>
-  <body>
+      href="{{url_for('static',filename='css/info-dispositivos.css')}}">
+{% endblock %}
+{% block content %}
     <div id="contenedor-dispositivo">
-    </div>    
-    <script src="../js/info-dispositivo.js"></script>
-  </body>
-</html>
+    </div>
+{% endblock %}
+{% block javascript %}    
+    <script src="{{url_for('static',filename='js/info-dispositivo.js')}}"></script>
+{% endblock %}

@@ -1,23 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Jimmy Aguilera">
-    <title>Agregar Donación</title>
-    <link rel="stylesheet" type="text/css" href="../css/agregar-donacion.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
-      rel="stylesheet">
-  </head>
-  <body>
+{%extends 'base.html' %}
+{% block title %}
+  Agregar Donación
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='../static/css/agregar-donacion.css')}}">
+{% endblock %}
+{% block content %}
     <section>
       <div><h1>Formulario de Donación</h1></div>
       <div id="conf-box" hidden>
         <h2 id="conf-msg">Mensaje de Confirmación</h2>
-        <a class="button" href="../html/index.html">Volver al inicio</a>
+        <a class="button" href="{{url_for('index')}}">Volver al inicio</a>
       </div>
       <div id="val-box" hidden>
         <h2 id="val-msg">Mensaje de validación</h2>
@@ -170,14 +163,16 @@
             </button>
           </div>
           <div>
-            <a class="button" href="../html/index.html">Volver al inicio</a>
+            <a class="button" href="{{url_for('index')}}">Volver al inicio</a>
           </div>
         </div>
       </form>
     </section>
-    <script src="../js/form-validation.js"></script>
-    <script src="../js/regiones-comunas.js"></script>
-    <script src="../js/select-Reg-Com.js"></script>
-    <script src="../js/otro-dispositivo.js"></script>
-  </body>
-</html>
+{% endblock %}
+{% block javascript %}
+    <script src="{{url_for('static',filename='js/form-validation.js')}}"></script>
+    <script src="{{url_for('static',filename='js/regiones-comunas.js')}}"></script>
+    <script src="{{url_for('static',filename='js/select-Reg-Com.js')}}"></script>
+    <script src="{{url_for('static',filename='js/otro-dispositivo.js')}}"></script>
+{% endblock %}
+
