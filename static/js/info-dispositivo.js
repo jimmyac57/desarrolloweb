@@ -69,7 +69,7 @@ const devices = {
     tipo: "Otro",
     uso: "1",
     status: "Funciona a medias",
-    img: "../img/powerbank_golf_20000mA.jpg",
+    img: "static/media/powerbank_golf_20000mA.jpg",
     comentario: `
             <h3>Comentarios</h3>
             <div class="comentario">
@@ -102,7 +102,7 @@ const devices = {
     tipo: "Notebook",
     uso: "3",
     status: "No funciona",
-    img: "../img/acer_aspire_4733Z.jpg",
+    img: "static/media/acer_aspire_4733Z.jpg",
     comentario: `
             <h3>Comentarios</h3>
             <div class="comentario">
@@ -135,7 +135,7 @@ const devices = {
     tipo: "Impresora",
     uso: "2",
     status: "Funciona a medias",
-    img: "../img/impresora_brother_DCP_T710W.jpg",
+    img: "static/media/impresora_brother_DCP_T710W.jpg",
     comentario: `
             <h3>Comentarios</h3>
             <div class="comentario">
@@ -168,7 +168,7 @@ const devices = {
     tipo: "Audífonos",
     uso: "1",
     status: "Funciona perfecto",
-    img: "../img/audifonosjbl.jpg",
+    img: "static/media/audifonosjbl.jpg",
     comentario: `
             <h3>Comentarios</h3>
             <div class="comentario">
@@ -201,7 +201,7 @@ const devices = {
     tipo: "Notebook",
     uso: "3",
     status: "Funciona perfecto",
-    img: "../img/notebook_asus.jpg",
+    img: "static/media/notebook_asus.jpg",
     comentario: `
             <h3>Comentarios</h3>
             <div class="comentario">
@@ -234,6 +234,14 @@ const getHash = () => {
 const deviceId = getHash();
 
 const deviceInfo = devices[deviceId];
+
+const volver = () => {
+  window.location.href = '/verdispositivos';
+}
+
+const inicio = () => {
+  window.location.href = '/';
+}
 
 if (deviceInfo) {
   const deviceHtml = `
@@ -270,15 +278,18 @@ if (deviceInfo) {
         </button>
 
         <div>
-            <a class="volver-button" href="../html/ver-dispositivos.html"> Volver </a>
+            <a class="volver-button" onclick="volver()"> Volver </a>
           </div>
         <div>
-            <a class="button" href="../html/index.html">Volver al inicio</a>
+            <a class="button inicio-button" onclick="inicio()">Volver al inicio</a>
           </div>
           
         <div id="exito" class="exito" hidden><em>El comentario se agregó con éxito</em></div>
         </fieldset>
   </form>`;
+
+
+  
 
   
   contenedor.innerHTML = deviceHtml;
