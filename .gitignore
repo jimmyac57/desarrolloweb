@@ -5,3 +5,5 @@ env
 *.zip
 
 entregas
+
+__pycache__
