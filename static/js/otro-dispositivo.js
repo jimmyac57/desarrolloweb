@@ -9,7 +9,7 @@ const crearInputs = (id, id2,id3,id4,id5,id6,numerodispositivo) => {
     const html= `<fieldset><legend> dispositivo numero ${numerodispositivo} </legend><label for=${id} ><em>Nombre del dispositivo:</em></label>
           <input type="text" id=${id} name="dispositivo[]" minlength="3" maxlength=80 size="80" required><span></span><br><br>
     <label for=${id2}>Descripción:</label>
-          <textarea id=${id2} rows="4" cols="50" name="descripcion" required></textarea><span></span><br><br>
+          <textarea id=${id2} rows="4" cols="50" name="descripcion[]" required> </textarea><span></span><br><br>
 
           <label for=${id3}>Tipo:</label>
           <select type="select" id=${id3} name="tipo[]" required>
@@ -40,7 +40,7 @@ const crearInputs = (id, id2,id3,id4,id5,id6,numerodispositivo) => {
           </select><span></span><br><br>
 
           <label for="${id6}">Fotos del producto:</label>
-          <input type="file" id=${id6} name="archivos[]" multiple required><span></span><br><br>
+          <input type="file" id=${id6} name="archivo_${numerodispositivo}" multiple required><span></span><br><br>
 
           </fieldset>
         `;

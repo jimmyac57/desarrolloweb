@@ -302,6 +302,7 @@ myForm.addEventListener("change", (event) => {
 });
 
 const handleFormSubmit = (event) => {
+  event.preventDefault();
   console.log("Validating form...");
 
   const dispositivoInputs = document.getElementsByName("dispositivo[]");
@@ -426,11 +427,8 @@ const handleFormSubmit = (event) => {
     document.querySelector("h1").style.display="none"
 
     // establecer mensaje de éxito
-    validationMessageElem.innerText =
-      "¡Formulario válido! ¿Confirma que desea publicar esta donación?";
+    validationMessageElem.innerText ="¡Formulario válido! ¿Confirma que desea publicar esta donación?";
     validationListElem.textContent = "";
-
-    confirmationMessage.innerText = "Muchas gracias por su donación";
 
     // aplicar estilos de éxito
     validationBox.style.backgroundColor = "#ddffdd";
@@ -441,9 +439,9 @@ const handleFormSubmit = (event) => {
     submitButton.innerText = "Si, confirmo";
     submitButton.style.marginRight = "10px";
     submitButton.addEventListener("click", () => {
-      // Se deberia enviar al backend aqui
+      
       validationBox.hidden = true;
-      confirmationBox.hidden = false;
+      myForm.submit()
     });
 
     let backButton = document.createElement("button");
