@@ -7,16 +7,28 @@
 {% endblock %}
 {% block content %}
     <section>
-      <div><h1>Formulario de Donación</h1></div>
-      <div id="conf-box" hidden>
-        <h2 id="conf-msg">Mensaje de Confirmación</h2>
+      
+      {% if exito %}
+      <div id="conf-box">
+        <h2 id="conf-msg">Muchas gracias por su donación</h2>
         <a class="button" href="{{url_for('index')}}">Volver al inicio</a>
       </div>
+      {% else %}
+      
+      <div><h1>Formulario de Donación</h1></div>
+      {% if errors %}
+      <div id="val-box">
+        <h2 id="val-msg">Los siguientes Campos son invalidos:</h2>
+        <ul id="val-list">{% for key, error in errors.items() %}
+          <li>{{ key }}: {{ error }}</li>
+        {% endfor %}</ul>
+      </div>
+      {% endif%}
       <div id="val-box" hidden>
         <h2 id="val-msg">Mensaje de validación</h2>
         <ul id="val-list"></ul>
       </div>
-      <form id="myForm">
+      <form id="myForm" action="{{url_for('agregar_donacion')}}" method="post" enctype="multipart/form-data">
         <!--##### INFO CONTACTO ######-->
         <div class="info-contacto">
           <fieldset>
@@ -31,21 +43,23 @@
               id="nombre"
               name="nombre"
               size="80"
-              required>
+              required
+              value="{{ request.form.get('nombre', '') }}">
               <span></span>
               <br><br>
 
             <label for="email">
               <em>Email:</em>
             </label>
-            <input type="email" id="email" name="email" size="30" required>
+            <input type="email" id="email" name="email" size="30" required value="{{ request.form.get('email', '') }}">
             <span></span><br><br>
 
             <label for="celular">
               <em>Número celular:</em>
             </label>
-            <input type="tel" id="celular" name="celular" size="15">
-            <span></span><br><br>
+            <input type="tel" id="celular" name="celular" size="15" value="{{ request.form.get('celular', '') }}">
+            <span></span>
+<br><br>
 
             <label for="region">
               <em>Región:</em>
@@ -53,7 +67,8 @@
             <select id="region" name="region">
               <option value="0">Seleccione una región</option>
             </select>
-            <span></span><br><br>
+            <span></span>
+            <br><br>
 
             <label for="comuna">
               <em>Comuna:</em>
@@ -61,7 +76,8 @@
             <select id="comuna" name="comuna" >
               <option value="0">Seleccione una comuna</option>
             </select>
-            <span></span><br><br>
+            <span></span>
+            <br><br>
           </fieldset>
         </div>
 
@@ -81,19 +97,18 @@
                   size="80"
                   minlength="3"
                   maxlength="80"
-                  required>
+                  required value="{{ request.form.get('devices', '') }}">
                 <span></span> <br><br>
 
-                <label for="descripción">
+                <label for="descripcion">
                   <em>Descripción:</em>
                 </label>
                 <textarea
-                  id="descripción"
+                  id="descripcion"
                   rows="4"
                   cols="50"
-                  name="descripción[]"
-                  required>
-                </textarea><span></span><br><br>
+                  name="descripcion[]"
+                  required> </textarea><span></span><br><br>
 
                 <label for="tipo">
                   <em>Tipo:</em>
@@ -146,7 +161,7 @@
                 <input
                   type="file"
                   id="archivos"
-                  name="archivos[]"
+                  name="archivo_1"
                   multiple
                   required>
                 <span></span>
@@ -158,7 +173,7 @@
             Añadir otro dispositivo
           </button>
           <div class="class-form__button">
-            <button class="button-submit" type="button" id="button-submit">
+            <button class="button-submit" type="submit" id="button-submit">
               Publicar esta donación
             </button>
           </div>
@@ -167,6 +182,7 @@
           </div>
         </div>
       </form>
+      {% endif %}
     </section>
 {% endblock %}
 {% block javascript %}
