@@ -50,7 +50,7 @@ def validate_device(device):
         return "El nombre es demasiado corto, debe ser mayor de 3 caracteres"
     if len(device) > 80:
         return "El nombre es demasiado largo, debe ser menor de 80 caracteres"
-    if not re.match(r'^[a-zA-Z0-9áéíóúñÁÉÍÓÚÑ]*$', device):
+    if not re.match(r'^[a-zA-Z0-9áéíóúñÁÉÍÓÚÑ ]*$', device):
         return "El nombre solo puede contener letras y números"
     return ""
     
