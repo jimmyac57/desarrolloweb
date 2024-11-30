@@ -1,6 +1,10 @@
-//para hacer que solo se muestre el dispositivo seleccionado en informacion-dispositivos.html
-const redirect = (fila) => {
-    const deviceId = fila.getAttribute('data-id');
-    window.location.href = `informaciondispositivos#${deviceId}`;
-}
+document.querySelectorAll('tbody tr').forEach(fila => {
+    fila.addEventListener('click', function() {
+        const deviceId = this.getAttribute('data-id');
+        window.location.href = `/informaciondispositivos/${deviceId}`; 
+    });
+});
+
+
+
 

@@ -3,6 +3,9 @@
     "insert_device": "INSERT INTO dispositivo (contacto_id, nombre, descripcion, tipo, anos_uso, estado) VALUES (%s,%s,%s,%s,%s,%s)",
     "get_device_id": "SELECT id FROM tarea2.dispositivo WHERE contacto_id =%s AND nombre=%s AND descripcion =%s AND tipo=%s AND anos_uso=%s AND estado=%s;",
     "get_contact_id": "SELECT id FROM tarea2.contacto WHERE nombre = %s AND email=%s  AND comuna_id = %s AND fecha_creacion=%s",
-    "insert_file": "INSERT INTO archivo (ruta_archivo, nombre_archivo, dispositivo_id) VALUES (%s,%s,%s);"
+    "insert_file": "INSERT INTO archivo (ruta_archivo, nombre_archivo, dispositivo_id) VALUES (%s,%s,%s);",
+    "get_data_with_device_id": "SELECT DISTINCT c.nombre ,c.email, c.celular,reg.nombre, com.nombre, d.nombre, d.tipo, d.anos_uso,d.estado , a.ruta_archivo,a.nombre_archivo, d.id FROM dispositivo d JOIN contacto c ON d.contacto_id = c.id JOIN archivo a ON d.id = a.dispositivo_id JOIN comuna com ON c.comuna_id= com.id JOIN region reg ON com.region_id = reg.id WHERE d.id = %s LIMIT 1;",
+    "get_data_with_device_by_pag": "SELECT DISTINCT c.nombre ,c.email, c.celular,reg.nombre, com.nombre, d.nombre, d.tipo, d.anos_uso,d.estado , a.ruta_archivo,a.nombre_archivo, d.id FROM dispositivo d JOIN contacto c ON d.contacto_id = c.id JOIN archivo a ON d.id = a.dispositivo_id JOIN comuna com ON c.comuna_id= com.id JOIN region reg ON com.region_id = reg.id  LIMIT %s , %s;",
+    "count_devices": "SELECT COUNT(DISTINCT d.id) AS total_dispositivos FROM dispositivo d JOIN contacto c ON d.contacto_id = c.id JOIN archivo a ON d.id = a.dispositivo_id JOIN comuna com ON c.comuna_id = com.id JOIN region reg ON com.region_id = reg.id;"
 
 }

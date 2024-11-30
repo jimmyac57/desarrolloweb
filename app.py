@@ -101,14 +101,14 @@ def agregar_donacion():
                 db.insert_device(id_contact, devices[i].strip(),descripciones[i].strip(), tipos[i], usos[i], estados[i])
 
                 id_dispositivo = db.get_device_id(id_contact, devices[i].strip(),descripciones[i].strip(),tipos[i], usos[i], estados[i])
-                print("es el id:" ,id_dispositivo)
+                #print("es el id:" ,id_dispositivo)
                 
                 device_join_path = os.path.join(path, str(id_dispositivo))
                 device_path = device_join_path.replace(os.sep,'/')
                 if not os.path.exists(device_path):
                     os.makedirs(device_path)
     
-                print(f"Carpeta creada (o existente): {device_path}")
+                #print(f"Carpeta creada (o existente): {device_path}")
 
                 for k in range(len(archivos[i])):
                     unique_id = uuid.uuid4().hex
@@ -130,19 +130,55 @@ def agregar_donacion():
             return redirect(url_for('agregar_donacion', exito=True))
     else:
         exito = request.args.get('exito', default=False, type=bool)
-        errors = request.args.get('errors', None)
+        errors = {}
         return render_template("agregar-donacion.html",errors=errors,exito=exito)
         
+@app.route("/verdispositivos/<int:pagina>", methods=["GET"])
+@app.route("/verdispositivos", methods=["GET"])
+def ver_dispositivos(pagina=None):
+    n_de_dispositivos = db.count_devices()  
+    total_paginas = (n_de_dispositivos + 4) // 5  
 
-@app.route("/verdispositivos")
-def ver_dispositivos():
-    errors = {}
-    return render_template("ver-dispositivos.html", errors=errors)
+    if not pagina or pagina < 1 or pagina > total_paginas:
+        return redirect(url_for("ver_dispositivos", pagina=1))
 
-@app.route("/informaciondispositivos")
-def info_dispositivos():
-    errors = {}
-    return render_template("informacion-dispositivos.html", errors=errors)
+    dispositivos = db.get_data_with_device_by_pag(pagina)
+
+    paginas_visibles = []
+    if total_paginas <= 7:
+        paginas_visibles = list(range(1, total_paginas + 1))
+    else:
+        if pagina <= 4:
+            paginas_visibles = [1, 2, 3, 4, 5, "...", total_paginas]
+        elif pagina >= total_paginas - 3:
+            paginas_visibles = [1, "..."] + list(range(total_paginas - 4, total_paginas + 1))
+        else:
+            paginas_visibles = [1, "...", pagina - 1, pagina, pagina + 1, "...", total_paginas]
+
+    # Si no hay dispositivos, añadir datos predeterminados y recargar
+    if not dispositivos:
+        db.add_verdispositivos_data()
+        print("Se han añadido datos predeterminados de dispositivos")
+        return redirect(url_for('ver_dispositivos', pagina=1))
+
+    # Renderizar la plantilla con los datos
+    return render_template(
+        "ver-dispositivos.html",
+        dispositivos=dispositivos,
+        pagina_actual=pagina,
+        total_paginas=total_paginas,
+        paginas_visibles=paginas_visibles,
+    )
+
+
+@app.route("/informaciondispositivos/<int:dispositivo_id>")
+def info_dispositivos(dispositivo_id):
+
+    dispositivo = db.get_data_with_device_id(dispositivo_id)
+    print(dispositivo)
+    if not dispositivo:
+        return "Dispositivo no encontrado", 404
+    return render_template("informacion-dispositivos.html", dispositivo=dispositivo)
 
 @app.errorhandler(413)
 def handle_file_too_large(e):

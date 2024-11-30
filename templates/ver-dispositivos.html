@@ -19,46 +19,33 @@
                 </tr>
             </thead>
             <tbody>
-                <tr data-id="dispositivo1" onclick="redirect(this)">
-                    <td>Otro</td>
-                    <td>GOLF powerbank P20-LCDPD</td>
-                    <td>Funciona a medias</td>
-                    <td>San Bernardo</td>
-                    <td><img src="{{url_for('static',filename='media/powerbank_golf_20000mA.jpg')}}" alt="powerbank golf"></td>
+                {% for dispositivo in dispositivos %}
+                <tr data-id="{{ dispositivo.device_id }}">
+                    <td>{{ dispositivo.tipo|capitalize }}</td>
+                    <td>{{ dispositivo.dispositivo }}</td>
+                    <td>{{ dispositivo.estado|capitalize }}</td>
+                    <td>{{ dispositivo.comuna }}</td>
+                    <td><img src="{{ url_for('static', filename=dispositivo.ruta_archivo|replace('static/', '') ~ '/' ~ dispositivo.nombre_archivo) }}" alt="{{ dispositivo.dispositivo}}"></td>
                 </tr>
-                <tr data-id="dispositivo2" onclick="redirect(this)">
-                    <td>Notebook</td>
-                    <td>ACER aspire 4733Z</td>
-                    <td>No funciona</td>
-                    <td>Quillota</td>
-                    <td><img src="{{url_for('static',filename='media/acer_aspire_4733Z.jpg')}}" alt="notebook acer aspire"></td>
-                </tr>
-                <tr data-id="dispositivo3" onclick="redirect(this)">
-                    <td>Impresora</td>
-                    <td>Brother DCP-T710W</td>
-                    <td>Funciona a medias</td>
-                    <td>San Bernardo</td>
-                    <td><img src="{{url_for('static',filename='media/impresora_brother_DCP_T710W.jpg')}}" alt="impresora brother"></td>
-                </tr>
-                <tr data-id="dispositivo4" onclick="redirect(this)">
-                    <td>Audífonos</td>
-                    <td>JBL QUANTUM 300</td>
-                    <td>Funciona perfecto</td>
-                    <td>Antofagasta</td>
-                    <td><img src="{{url_for('static',filename='media/audifonosjbl.jpg')}}" alt="audifonos jbl"></td>
-                </tr>
-                <tr data-id="dispositivo5" onclick="redirect(this)">
-                    <td>Notebook</td>
-                    <td>ASUS TUF GAMING F15</td>
-                    <td>Funciona perfecto</td>
-                    <td>Iquique</td>
-                    <td><img src="{{url_for('static',filename='media/notebook_asus.jpg')}}" alt="notebook asus"></td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div>
             <a class="button" href="{{url_for('index')}}">Volver al inicio</a>
           </div>
+          <nav>
+            <ul class="pagination">
+                {% for page in paginas_visibles %}
+                    {% if page == "..." %}
+                        <li><span>...</span></li>
+                    {% elif page == pagina_actual %}
+                        <li><a href="{{ url_for('ver_dispositivos', pagina=page) }}" class="active">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('ver_dispositivos', pagina=page) }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
     </div>
 {% endblock %}
 {% block javascript %}
