@@ -115,7 +115,7 @@ if (device_Id) {
     if (isValid) {
       
       const myForm = document.getElementById("myForm");
-      myForm.submit(); // Envío del formulario
+      myForm.submit();
     }
       
   };

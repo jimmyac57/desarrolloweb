@@ -6,4 +6,6 @@ env
 
 entregas
 
+static/uploads
+
 __pycache__

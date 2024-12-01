@@ -311,7 +311,6 @@ const handleFormSubmit = (event) => {
   const estadoInputs = document.getElementsByName("estado[]");
   const archivosInputs = document.getElementsByName("archivos[]");
 
-  // variables auxiliares de validación y función.
   let invalidInputs = [];
   let isValid = true;
   const setInvalidInput = (inputName) => {

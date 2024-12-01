@@ -155,13 +155,11 @@ def ver_dispositivos(pagina=None):
         else:
             paginas_visibles = [1, "...", pagina - 1, pagina, pagina + 1, "...", total_paginas]
 
-    # Si no hay dispositivos, añadir datos predeterminados y recargar
     if not dispositivos:
         db.add_verdispositivos_data()
         print("Se han añadido datos predeterminados de dispositivos")
         return redirect(url_for('ver_dispositivos', pagina=1))
 
-    # Renderizar la plantilla con los datos
     return render_template(
         "ver-dispositivos.html",
         dispositivos=dispositivos,

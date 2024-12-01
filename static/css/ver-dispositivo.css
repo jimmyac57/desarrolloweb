@@ -105,11 +105,11 @@ a.button:hover {
 
 .pagination a {
   text-decoration: none;
-  padding: 10px 20px; /* Se ajusta para que tenga el mismo tamaño que el botón */
+  padding: 10px 20px; 
   border: 1px solid #ddd;
   border-radius: 5px;
   color: #007bff;
-  font-size: 16px; /* Tamaño de fuente similar al del botón */
+  font-size: 16px; 
   background-color: white;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -126,10 +126,10 @@ a.button:hover {
 }
 
 .pagination span {
-  padding: 10px 20px; /* Ajuste para que tenga el mismo tamaño que el botón */
+  padding: 10px 20px; 
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f4f4f9;
   color: #333;
-  font-size: 16px; /* Tamaño de fuente consistente */
+  font-size: 16px; 
 }

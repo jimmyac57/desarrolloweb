@@ -253,7 +253,7 @@ def get_comentaries_by_device_id(device_id):
         resultado_dict={
             'nombre': row[0],
             'texto': row[1],
-            'fecha': row[2],
+            'fecha': row[2]
         }
         resultado_lista.append(resultado_dict)
     return resultado_lista
