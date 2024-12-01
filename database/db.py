@@ -1,7 +1,6 @@
 import pymysql
 import json
 from datetime import datetime
-import os
 
 DB_NAME = "tarea2"
 DB_USERNAME = "cc5002"
@@ -238,6 +237,27 @@ def count_devices():
     result = cursor.fetchone()
     return result[0]
 
+def insert_comentary(nombre,texto,fecha,dispositivo_id):
+    conn = get_conn()
+    cursor=conn.cursor()
+    cursor.execute(QUERY_DICT["insert_comentary"],(nombre,texto,fecha,dispositivo_id))
+    conn.commit()
+
+def get_comentaries_by_device_id(device_id):
+    conn = get_conn()
+    cursor=conn.cursor()
+    cursor.execute(QUERY_DICT["get_comentaries_by_device_id"],(device_id,))
+    result=cursor.fetchall()
+    resultado_lista=[]
+    for row in result:
+        resultado_dict={
+            'nombre': row[0],
+            'texto': row[1],
+            'fecha': row[2],
+        }
+        resultado_lista.append(resultado_dict)
+    return resultado_lista
+
 #para que ver dispositivos no este tan vacio(luego esto se carga al ingregar a ver dispositivos)  
 # por esto las carpetas de uploads comienzan en 6 ya que los 5 primeros id los tienen los archivos base 
 def add_verdispositivos_data():
@@ -309,4 +329,6 @@ def add_verdispositivos_data():
 
     
     insert_file("static/media","notebook_asus.jpg",device_id)
+
+#add_verdispositivos_data() si se quisiera añadir muchos dispositivos se puede ejecutar esta cosa muchas veces para ver el paginado
 

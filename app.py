@@ -171,14 +171,46 @@ def ver_dispositivos(pagina=None):
     )
 
 
-@app.route("/informaciondispositivos/<int:dispositivo_id>")
+@app.route("/informaciondispositivos/<int:dispositivo_id>",methods=['GET','POST'])
 def info_dispositivos(dispositivo_id):
+    if request.method=="POST":
+        dispositivo = db.get_data_with_device_id(dispositivo_id)
+        print("Se recibió una solicitud POST")
+        errors = {}
+        nombre = request.form.get("nombre")
+        print("nombre",nombre)
+        
+        comentario = request.form.get("comentario")
+        print("texto",comentario)
 
-    dispositivo = db.get_data_with_device_id(dispositivo_id)
-    print(dispositivo)
-    if not dispositivo:
-        return "Dispositivo no encontrado", 404
-    return render_template("informacion-dispositivos.html", dispositivo=dispositivo)
+        errors['nombre'] = validate_name(nombre)
+        errors['comentario'] = validate_comentario(comentario)
+        errors = {key: value for key, value in errors.items() if value}
+        if errors:
+            print(errors)
+            comentarios=db.get_comentaries_by_device_id(dispositivo_id)
+            return render_template("informacion-dispositivos.html",dispositivo=dispositivo, errors=errors,comentarios=comentarios, form=request.form)
+        else:
+            fecha = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            db.insert_comentary(nombre.strip(),comentario.strip(),fecha,dispositivo_id)
+            comentarios=db.get_comentaries_by_device_id(dispositivo_id)
+
+            return render_template("informacion-dispositivos.html",dispositivo=dispositivo, errors=errors,comentarios=comentarios,form={})
+    else:
+        print("Método GET")
+        dispositivo = db.get_data_with_device_id(dispositivo_id)
+        comentarios=db.get_comentaries_by_device_id(dispositivo_id)
+        if not dispositivo:
+            return "Dispositivo no encontrado", 404
+        return render_template("informacion-dispositivos.html", dispositivo=dispositivo,comentarios=comentarios)
+    
+@app.route("/graficotipodispositivos", methods=['GET', 'POST'])
+def grafico_tipo_dispositivos():
+    return render_template("g-tipo-d.html")
+
+@app.route("/graficocontactoscomuna", methods=['GET', 'POST'])
+def grafico_contactos_comuna():
+    return render_template("g-contact-com.html")
 
 @app.errorhandler(413)
 def handle_file_too_large(e):
@@ -186,4 +218,5 @@ def handle_file_too_large(e):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 

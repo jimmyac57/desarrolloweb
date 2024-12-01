@@ -116,3 +116,13 @@ def validate_archivos(archivos):
         if ftype_guess.mime not in ALLOWED_MIMETYPES:
             return mensaje + "El archivo no corresponde con el tipo de archivo requerido\n"
     return mensaje
+
+def validate_comentario(texto):
+    texto=texto.strip()
+    if not texto:
+        return "El texto del comentario es obligatorio"
+    if len(texto)<5 and len(texto)>0:
+        return "El texto del comentario es demasiado corto, debe ser mayor de 5 caracteres"
+    if len(texto)>200:
+        return "La texto del comentario es demasiado larga, debe ser menor de 200 caracteres"
+    return ""

@@ -1,4 +1,3 @@
-
 {%extends 'base.html' %}
 {% block title %}
   Inicio
@@ -17,6 +16,12 @@
         </a>
         <a href="{{url_for('ver_dispositivos')}}" class="button">
           Ver Dispositivos
+        </a>
+        <a href="{{url_for('grafico_tipo_dispositivos')}}" class="button">
+          Gráfico tipo de dispositivos
+        </a>
+        <a href="{{url_for('grafico_contactos_comuna')}}" class="button">
+          Gráfico contactos por comuna
         </a>
       </div>
     </section>

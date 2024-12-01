@@ -398,8 +398,6 @@ const handleFormSubmit = (event) => {
   let validationBox = document.getElementById("val-box");
   let validationMessageElem = document.getElementById("val-msg");
   let validationListElem = document.getElementById("val-list");
-  let confirmationBox = document.getElementById("conf-box");
-  let confirmationMessage = document.getElementById("conf-msg");
 
   if (!isValid) {
     validationListElem.textContent = "";
@@ -419,7 +417,6 @@ const handleFormSubmit = (event) => {
     // hacer visible el mensaje de validación
     validationBox.hidden = false;
 
-    confirmationBox.hidden = true;
   } else {
     // Ocultar el formulario
     myForm.style.display = "none";

@@ -1,17 +1,91 @@
-{% extends 'base.html'%}
-{% block title%}
-  Información Dispositivo
-{% endblock %}
+{% extends 'base.html'%} {% block title%} Información Dispositivo {% endblock %}
 {% block styles %}
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{{url_for('static',filename='css/info-dispositivos.css')}}">
-{% endblock %}
-{% block content %}
-    <div id="contenedor-dispositivo">
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{url_for('static',filename='css/info-dispositivos.css')}}"
+/>
+{% endblock %} {% block content %}
+<div id="contenedor-dispositivo" data-device-id="{{ dispositivo.device_id }}">
+  <h2>Información de contacto</h2>
+  <p>Nombre: {{dispositivo.nombre}}</p>
+  <p>Email: {{dispositivo.email}}</p>
+  <p>Celular: {{dispositivo.celular}}</p>
+  <p>Región: {{dispositivo.region}}</p>
+  <p>Comuna: {{dispositivo.comuna}}</p>
+  <h2>Información del dispositivo</h2>
+  <p>Dispositivo: {{dispositivo.dispositivo}}</p>
+  <p>Tipo: {{dispositivo.tipo}}</p>
+  <p>Años de uso: {{dispositivo.anos_uso}}</p>
+  <p>Estado de funcionamiento: {{dispositivo.estado}}</p>
+  <p>Fotos del producto</p>
+  <img
+    id="{{dispositivo.device_id}}"
+    class="zoomin"
+    src="{{ url_for('static', filename=dispositivo.ruta_archivo|replace('static/', '') ~ '/' ~ dispositivo.nombre_archivo) }}"
+    alt="{{ dispositivo.dispositivo }}"
+    style="width: 640px; height: 480px"
+  />
+  <h3>Comentarios:</h3>
+  {% for comentario in comentarios %}
+  <div class="comentario">
+    <div class="comentario-header">
+        <span>@{{comentario.nombre}}</span>
+        <span>{{comentario.fecha}}</span>
     </div>
-{% endblock %}
-{% block javascript %}    
-    <script src="{{url_for('static',filename='js/info-dispositivo.js')}}"></script>
+    <div class="comentario-body">
+        {{comentario.texto}}
+    </div>
+</div>
+  {% endfor %}
+
+
+  
+  <div id="contenedor-comentarios"></div>
+  <form id="myForm" action="{{url_for('info_dispositivos', dispositivo_id=dispositivo.device_id)}}" method="post">
+    <fieldset>
+      <legend>Agregar nuevo comentario</legend>
+      <label for="nombre"><em>Nombre:</em></label>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        minlength="3"
+        maxlength="80"
+        required {% if form %}
+        value="{{ request.form.get('nombre') }}"
+        {% endif %}
+      /><span>{% if errors.get('nombre') %}
+        {{errors.get('nombre')}}
+        {% endif %}
+      </span> <br /><br />
+
+      <label for="comentario"> <em>Comentario:</em> </label>
+      <textarea
+        name="comentario"
+        id="comentario"
+        cols="50"
+        rows="4"
+        maxlength="200"
+        required
+      >{% if form %}{{ request.form.get('comentario') }}{% endif %}</textarea>
+      <span>{% if errors.get('comentario') %}
+        {{errors.get('comentario')}}
+        {% endif %}</span><br /><br />
+
+      <button type="submit" id="addComentarioBtn">Agregar comentario</button>
+
+      <div>
+        <a class="volver-button" href="{{ url_for('ver_dispositivos') }}"> Volver </a>
+      </div>
+      <div>
+        <a class="button inicio-button" href="{{url_for('index')}}">Volver al inicio</a>
+      </div>
+
+    </fieldset>
+  </form>
+</div>
+
+{% endblock %} {% block javascript %}
+<script src="{{url_for('static',filename='js/info-dispositivo.js')}}"></script>
 {% endblock %}
