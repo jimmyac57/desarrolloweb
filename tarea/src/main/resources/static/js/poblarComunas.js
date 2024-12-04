@@ -6,7 +6,7 @@ document.getElementById("region").addEventListener("change", function () {
         return;
     }
 
-    fetch(`/api/poblarcomunas/region/${regionId}`)
+    fetch(`/api/region/${regionId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Error HTTP: ${response.status}`);

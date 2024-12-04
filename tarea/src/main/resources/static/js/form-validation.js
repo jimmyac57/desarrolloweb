@@ -247,16 +247,6 @@ celularInput.addEventListener("input", () => {
   validarCelular(celularInput);
 });
 
-//validacion dinamica region
-regionInput.addEventListener("change", () => {
-  validarRegion(regionInput);
-});
-
-//validacion dinamica comuna
-comunaInput.addEventListener("change", () => {
-  validarComuna(regionInput, comunaInput);
-});
-
 const myForm = document.getElementById("myForm");
 
 myForm.addEventListener("input", (event) => {
@@ -328,15 +318,6 @@ const handleFormSubmit = (event) => {
   //CELULAR
   if (!validarCelular(celularInput)) {
     setInvalidInput(celularInput.name);
-  }
-
-  //REGION
-  if (!validarRegion(regionInput)) {
-    setInvalidInput(regionInput.name);
-  }
-  //COMUNA
-  if (!validarComuna(regionInput, comunaInput)) {
-    setInvalidInput(comunaInput.name);
   }
 
   //DISPOSITIVO
