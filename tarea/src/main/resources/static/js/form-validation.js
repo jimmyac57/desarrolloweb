@@ -83,8 +83,6 @@ const validarSelect = (opcionesvalidas, campo) => {
 const nombreInput = document.getElementById("nombre");
 const emailInput = document.getElementById("email");
 const celularInput = document.getElementById("celular");
-const regionInput = document.querySelector("#region");
-const comunaInput = document.querySelector("#comuna");
 
 //#### NOMBRE ####
 const validarNombre = (campo) => {
@@ -116,37 +114,7 @@ const validarCelular = (campo) => {
     (campo = celularInput)
   );
 };
-//#### REGION ####
-const validarRegion = (campo) => {
-  let textoVisible = campo.options[campo.selectedIndex].textContent;
-  if (campo.value == 0) {
-    return validarCampoVacio(campo);
-  }
-  let cond1 = regiones_comunas.regiones.find(
-    (region) => region.id == campo.value
-  );
-  let cond2 = regiones_comunas.regiones.find(
-    (region) => region.nombre == textoVisible
-  );
-  return validarSelect(cond1 == cond2, campo);
-};
-//#### COMUNA ####
-const validarComuna = (regionSelected, campo) => {
-  let textoVisible = campo.options[campo.selectedIndex].textContent;
-  if (campo.value == 0) {
-    return validarCampoVacio(campo);
-  }
-  let regionSeleccionada = regiones_comunas.regiones.find(
-    (region) => region.id == regionSelected.value
-  );
-  let cond1 = regionSeleccionada.comunas.find(
-    (comuna) => comuna.id == campo.value
-  );
-  let cond2 = regionSeleccionada.comunas.find(
-    (comuna) => comuna.nombre == textoVisible
-  );
-  return validarSelect(cond1 == cond2, campo);
-};
+
 //### DISPOSITIVO ###
 const validarDispositivo = (campo) => {
   return validarFormato(
@@ -157,6 +125,17 @@ const validarDispositivo = (campo) => {
     campo
   );
 };
+
+const validarDescripcion = (campo) => {
+  return validarFormato(
+    /^[a-zA-Z0-9\s]+$/,
+    "El formato solo permite numeros o letras",
+    5,
+    200,
+    campo
+  );
+}
+
 //### TIPO ###
 const validarTipo = (campo) => {
   let opcionElegida = campo.options[campo.selectedIndex].textContent;
@@ -227,79 +206,79 @@ const validarArchivos = (campo) => {
 
 //## VALIDACIONES DINAMICAS ##
 //validacion dinamica nombre
-nombreInput.addEventListener("input", () => {
-  validarNombre(nombreInput);
-});
-nombreInput.addEventListener("blur", () => {
-  validarCampoVacio(nombreInput);
-});
+// nombreInput.addEventListener("input", () => {
+//   validarNombre(nombreInput);
+// });
+// nombreInput.addEventListener("blur", () => {
+//   validarCampoVacio(nombreInput);
+// });
 
-//validacion dinamica email
-emailInput.addEventListener("input", () => {
-  validarEmail(emailInput);
-});
-emailInput.addEventListener("blur", () => {
-  validarCampoVacio(emailInput);
-});
+// //validacion dinamica email
+// emailInput.addEventListener("input", () => {
+//   validarEmail(emailInput);
+// });
+// emailInput.addEventListener("blur", () => {
+//   validarCampoVacio(emailInput);
+// });
 
-//validacion dinamica celular
-celularInput.addEventListener("input", () => {
-  validarCelular(celularInput);
-});
+// //validacion dinamica celular
+// celularInput.addEventListener("input", () => {
+//   validarCelular(celularInput);
+// });
 
 const myForm = document.getElementById("myForm");
 
-myForm.addEventListener("input", (event) => {
-  if (event.target.matches('input[name="dispositivo[]"]')) {
-    validarDispositivo(event.target);
-  }
-});
+// myForm.addEventListener("input", (event) => {
+//   if (event.target.matches('input[name="dispositivo[]"]')) {
+//     validarDispositivo(event.target);
+//   }
+// });
 
-myForm.addEventListener("blur", (event) => {
-  if (event.target.matches('input[name="dispositivo[]"]')) {
-    validarCampoVacio(event.target);
-  }
-});
+// myForm.addEventListener("blur", (event) => {
+//   if (event.target.matches('input[name="dispositivo[]"]')) {
+//     validarCampoVacio(event.target);
+//   }
+// });
 
-myForm.addEventListener("change", (event) => {
-  if (event.target.matches('select[name="tipo[]"]')) {
-    validarTipo(event.target);
-  }
-});
+// myForm.addEventListener("change", (event) => {
+//   if (event.target.matches('select[name="tipo[]"]')) {
+//     validarTipo(event.target);
+//   }
+// });
 
-myForm.addEventListener("input", (event) => {
-  if (event.target.matches('input[name="uso[]"]')) {
-    validarTiempodeuso(event.target);
-  }
-});
+// myForm.addEventListener("input", (event) => {
+//   if (event.target.matches('input[name="uso[]"]')) {
+//     validarTiempodeuso(event.target);
+//   }
+// });
 
-myForm.addEventListener("blur", (event) => {
-  if (event.target.matches('input[name="uso[]"]')) {
-    validarCampoVacio(event.target);
-  }
-});
+// myForm.addEventListener("blur", (event) => {
+//   if (event.target.matches('input[name="uso[]"]')) {
+//     validarCampoVacio(event.target);
+//   }
+// });
 
-myForm.addEventListener("change", (event) => {
-  if (event.target.matches('select[name="estado[]"]')) {
-    validarEstado(event.target);
-  }
-});
+// myForm.addEventListener("change", (event) => {
+//   if (event.target.matches('select[name="estado[]"]')) {
+//     validarEstado(event.target);
+//   }
+// });
 
-myForm.addEventListener("change", (event) => {
-  if (event.target.matches('input[name="archivos[]"]')) {
-    validarArchivos(event.target);
-  }
-});
+// myForm.addEventListener("change", (event) => {
+//   if (event.target.matches('input[name="archivos[]"]')) {
+//     validarArchivos(event.target);
+//   }
+// });
 
 const handleFormSubmit = (event) => {
-  event.preventDefault();
   console.log("Validating form...");
 
-  const dispositivoInputs = document.getElementsByName("dispositivo[]");
-  const tipoInputs = document.getElementsByName("tipo[]");
-  const tiempodeusoInputs = document.getElementsByName("uso[]");
-  const estadoInputs = document.getElementsByName("estado[]");
-  const archivosInputs = document.getElementsByName("archivos[]");
+  const dispositivoInputs = document.getElementsByName("dispositivo");
+  const descripcionInputs = document.getElementsByName("descripcion");
+  const tipoInputs = document.getElementsByName("tipo");
+  const tiempodeusoInputs = document.getElementsByName("uso");
+  const estadoInputs = document.getElementsByName("estado");
+  const archivosInputs = document.getElementsByName("archivos");
 
   let invalidInputs = [];
   let isValid = true;
@@ -308,9 +287,9 @@ const handleFormSubmit = (event) => {
     isValid &&= false;
   };
   //NOMBRE
-  if (!validarNombre(nombreInput)) {
-    setInvalidInput(nombreInput.name);
-  }
+  // if (!validarNombre(nombreInput)) {
+  //   setInvalidInput(nombreInput.name);
+  // }
   //EMAIL
   if (!validarEmail(emailInput)) {
     setInvalidInput(emailInput.name);
@@ -330,6 +309,17 @@ const handleFormSubmit = (event) => {
       setInvalidInput(inputName.replace(/\[\]$/, ""));
     }
   }
+
+  for(let i = 0; i < descripcionInputs.length; i++) {
+    if (!validarDescripcion(descripcionInputs[i])) {
+      let inputName = descripcionInputs[i].name;
+      if (i > 0) {
+        inputName = inputName.replace(/\[\]$/, ` n${i + 1}`);
+      }
+      setInvalidInput(inputName.replace(/\[\]$/, ""));
+    }
+  }
+
   //TIPO
   for (let i = 0; i < tipoInputs.length; i++) {
     if (!validarTipo(tipoInputs[i])) {
@@ -374,69 +364,28 @@ const handleFormSubmit = (event) => {
     }
   }
 
-  // finalmente mostrar la validación
-  let validationBox = document.getElementById("val-box");
-  let validationMessageElem = document.getElementById("val-msg");
-  let validationListElem = document.getElementById("val-list");
-
-  if (!isValid) {
-    validationListElem.textContent = "";
-    // agregar elementos inválidos al elemento val-list.
-    for (let i = 0; i < invalidInputs.length; i++) {
-      let listElement = document.createElement("li");
-      listElement.innerText = invalidInputs[i];
-      validationListElem.append(listElement);
-    }
-    // establecer val-msg
-    validationMessageElem.innerText = "Los siguientes campos son inválidos:";
-
-    // aplicar estilos de error
-    validationBox.style.backgroundColor = "#ffdddd";
-    validationBox.style.borderLeftColor = "#f44336";
-
-    // hacer visible el mensaje de validación
-    validationBox.hidden = false;
+  if (isValid) {
 
   } else {
-    // Ocultar el formulario
-    myForm.style.display = "none";
+    const confirmacion = document.getElementById("conf-box");
+    confirmacion.style.display = "block";
 
     document.querySelector("h1").style.display="none"
 
-    // establecer mensaje de éxito
-    validationMessageElem.innerText ="¡Formulario válido! ¿Confirma que desea publicar esta donación?";
-    validationListElem.textContent = "";
+    const volver= document.getElementById("button-back");
+    const submitButton = document.getElementById("button-submit");
 
-    // aplicar estilos de éxito
-    validationBox.style.backgroundColor = "#ddffdd";
-    validationBox.style.borderLeftColor = "#4CAF50";
+    volver.addEventListener("click", () => {
+      confirmacion.style.display = "none";
+      document.querySelector("h1").style.display="block"
+    });
 
-    // Agregar botones para enviar el formulario o volver
-    let submitButton = document.createElement("button");
-    submitButton.innerText = "Si, confirmo";
-    submitButton.style.marginRight = "10px";
     submitButton.addEventListener("click", () => {
-      
-      validationBox.hidden = true;
-      myForm.submit()
+      myForm.submit();
     });
 
-    let backButton = document.createElement("button");
-    backButton.innerText = "No, quiero volver al formulario";
-    backButton.addEventListener("click", () => {
-      // Mostrar el formulario nuevamente
-      myForm.style.display = "block";
-      validationBox.hidden = true;
-      document.querySelector("h1").style.display="block";
-    });
-
-    validationListElem.appendChild(submitButton);
-    validationListElem.appendChild(backButton);
-
-    // hacer visible el mensaje de validación
-    validationBox.hidden = false;
   }
 };
 
-const submitButton = document.getElementById("button-submit");
-submitButton.addEventListener("click", handleFormSubmit);
+const publicarDonacion = document.getElementById("button-publicar");
+publicarDonacion.addEventListener("click", handleFormSubmit);

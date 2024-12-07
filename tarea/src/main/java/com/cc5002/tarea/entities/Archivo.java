@@ -6,26 +6,38 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
+
+/*author:Jimmy Aguilera*/
 
 @Entity
 public class Archivo {
 
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
     @Column(name = "nombre_archivo", nullable = false)
-    private String nombre_archivo;
+    private String nombreArchivo;
 
+    @NotNull
     @Column(name = "ruta_archivo", nullable = false)
-    private String ruta_archivo;
+    private String rutaArchivo;
+
+    @ManyToOne
+    @JoinColumn(name = "dispositivo_id", nullable = false)
+    private Dispositivo dispositivo;
 
     public Archivo(){
 
     }
     public Archivo(String nombre_archivo, String ruta_archivo){
-        this.nombre_archivo = nombre_archivo;
-        this.ruta_archivo = ruta_archivo;
+        this.nombreArchivo = nombre_archivo;
+        this.rutaArchivo = ruta_archivo;
     }
 
     public Integer getId() {
@@ -33,11 +45,11 @@ public class Archivo {
     }
 
     public String getNombreArchivo() {
-        return nombre_archivo;
+        return nombreArchivo;
     }
 
     public String getRutaArchivo() {
-        return ruta_archivo;
+        return rutaArchivo;
     }
 
     public void setId(Integer id) {
@@ -45,11 +57,11 @@ public class Archivo {
     }
 
     public void setNombreArchivo(String nombre_archivo) {
-        this.nombre_archivo = nombre_archivo;
+        this.nombreArchivo = nombre_archivo;
     }
 
     public void setRutaArchivo(String ruta_archivo) {
-        this.ruta_archivo = ruta_archivo;
+        this.rutaArchivo = ruta_archivo;
     }
     
 }

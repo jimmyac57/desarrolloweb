@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Información Dispositivo</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/info-dispositivos.css}"/>
+</head>
+<body>
+<div id="contenedor-dispositivo" th:data-device-id="${dispositivo.deviceId}">
+    <h2>Información de contacto</h2>
+    <p>Nombre: <span th:text="${dispositivo.nombre}"></span></p>
+    <p>Email: <span th:text="${dispositivo.email}"></span></p>
+    <p>Celular: <span th:text="${dispositivo.celular}"></span></p>
+    <p>Región: <span th:text="${dispositivo.region}"></span></p>
+    <p>Comuna: <span th:text="${dispositivo.comuna}"></span></p>
+    <h2>Información del dispositivo</h2>
+    <p>Dispositivo: <span th:text="${dispositivo.dispositivo}"></span></p>
+    <p>Tipo: <span th:text="${dispositivo.tipo}"></span></p>
+    <p>Años de uso: <span th:text="${dispositivo.anosUso}"></span></p>
+    <p>Estado de funcionamiento: <span th:text="${dispositivo.estado}"></span></p>
+    <p>Fotos del producto</p>
+    <img th:id="${dispositivo.deviceId}" class="zoomin"
+         th:src="@{'/' + ${dispositivo.rutaArchivo} + '/' + ${dispositivo.nombreArchivo}}"
+         th:alt="${dispositivo.dispositivo}" style="width: 640px; height: 480px"/>
+    <h3>Comentarios:</h3>
+    <div th:each="comentario : ${comentarios}">
+        <div class="comentario">
+            <div class="comentario-header">
+                <span th:text="'@' + ${comentario.nombre}"></span>
+                <span th:text="${comentario.fecha}"></span>
+            </div>
+            <div class="comentario-body">
+                <span th:text="${comentario.texto}"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="contenedor-comentarios"></div>
+    <form th:action="@{/dispositivos/info/{id}(id=${dispositivo.deviceId})}" method="post">
+        <fieldset>
+            <legend>Agregar nuevo comentario</legend>
+            <label for="nombre"><em>Nombre:</em></label>
+            <input type="text" id="nombre" name="nombre" minlength="3" maxlength="80" required
+                   th:value="${form?.nombre}" />
+            <span th:if="${errors?.nombre}" th:text="${errors.nombre}"></span>
+            <br/><br/>
+
+            <label for="comentario"><em>Comentario:</em></label>
+            <textarea name="comentario" id="comentario" cols="50" rows="4" maxlength="200" required
+                      th:text="${form?.comentario}"></textarea>
+            <span th:if="${errors?.comentario}" th:text="${errors.comentario}"></span>
+            <br/><br/>
+
+            <button type="submit" id="addComentarioBtn">Agregar comentario</button>
+            <div>
+                <a class="volver-button" th:href="@{/dispositivos}">Volver</a>
+            </div>
+            <div>
+                <a class="button inicio-button" th:href="@{/}">Volver al inicio</a>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<script th:src="@{/js/info-dispositivo.js}"></script>
+</body>
+</html>

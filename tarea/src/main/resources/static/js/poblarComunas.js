@@ -1,19 +1,21 @@
 document.getElementById("region").addEventListener("change", function () {
     const regionId = this.value;
+    console.log(regionId)
 
-    if (regionId === "0") {
+    if (regionId === "") {
         document.getElementById("comuna").innerHTML = '<option value="0">Seleccione una comuna</option>';
         return;
     }
 
-    fetch(`/api/region/${regionId}`)
+    fetch(`/api/comuna/${regionId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Error HTTP: ${response.status}`);
             }
             return response.json(); 
         })
-        .then(comunas => {
+        .then(data => {
+            const comunas = data.comunas;
             const comunaSelect = document.getElementById("comuna");
             comunaSelect.innerHTML = '<option value="0">Seleccione una comuna</option>';
             comunas.forEach(comuna => {
