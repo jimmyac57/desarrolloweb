@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.validation.BindingResult;
@@ -53,13 +54,8 @@ public class AppService {
     @Autowired
     private ArchivoRepository archivoRepository;
 
-    private final String pathStatic;
-
-    public AppService() throws IOException {
-        Path staticDir = Paths.get(ResourceUtils.getFile("classpath:static").getAbsolutePath());
-        this.pathStatic = staticDir.toString();
-        System.out.println("la ruta es:" + pathStatic);
-    }
+    @Value("${app.static.dir}")
+    private String staticDir;
 
     public List<Region> getRegiones() {
         return regionRepository.findAll();
@@ -73,6 +69,9 @@ public class AppService {
         return comunaRepository.findByRegionId(regionId);
     }
 
+    public List<Object[]> getDispositivos() {
+        return dispositivoRepository.getListaDeDispositivos();
+    }
     public Comuna getInitComuna(Integer region_id, Integer comuna_id) {
         return comunaRepository.findByIdAndRegionId(region_id, comuna_id);
     }
@@ -233,7 +232,7 @@ public class AppService {
     }
 
     private void guardarArchivos(List<ArchivoDTO> archivosdto, Dispositivo dispositivo) throws IOException {
-        System.out.println("Static path: " + pathStatic);
+        System.out.println("Static path: " + staticDir);
 
         for (ArchivoDTO archivo : archivosdto) {
             String _originalFilename = archivo.getArchivo().getOriginalFilename();
@@ -271,17 +270,24 @@ public class AppService {
             // Construir el nombre del archivo final y la ruta
             String imgFilename = _filename + "." + _extension;
             System.out.println("Nombre del archivo final: " + imgFilename);
-            String directoryPathImg = "/uploads/" + dispositivo.getId();
-            String relativePathImg = directoryPathImg + "/" + imgFilename;
-            String finalPath = pathStatic + relativePathImg;
-
-            String deviceDirectoryPath = pathStatic + "/uploads/" + dispositivo.getId();
+            String uploadDir = staticDir + "/uploads";
+            String deviceDirectoryPath = uploadDir + "/"+ dispositivo.getId();
+            String finalPath = deviceDirectoryPath + "/" + imgFilename;
             Path deviceDirectory = Paths.get(deviceDirectoryPath);
 
+            // Crear el directorio de uploads si no existe
+            Path directoryPath = Paths.get(uploadDir);
+            if (!Files.exists(directoryPath)) {
+                Files.createDirectories(directoryPath);
+                System.out.println("Directorio de uploads creado.");
+            }
+
+            // crear el directorio del id del dispositivo si no existe
             if (!Files.exists(deviceDirectory)) {
                 try {
                     Files.createDirectories(deviceDirectory);
                     System.out.println("Directorio creado para el dispositivo con ID: " + dispositivo.getId());
+                    System.out.println("Directorio creado en: " + deviceDirectory.toAbsolutePath());
                 } catch (IOException e) {
                     throw new RuntimeException(
                             "No se pudo crear el directorio para el dispositivo con ID: " + dispositivo.getId(), e);
@@ -290,12 +296,7 @@ public class AppService {
 
             System.out.println("Final image path: " + finalPath);
 
-            // Crear el directorio de uploads si no existe
-            Path directoryPath = Paths.get(pathStatic + "/uploads");
-            if (!Files.exists(directoryPath)) {
-                Files.createDirectories(directoryPath);
-                System.out.println("Directorio de uploads creado.");
-            }
+            
 
             // Guardar el archivo en el sistema
             Path path = Paths.get(finalPath);
@@ -310,8 +311,9 @@ public class AppService {
 
             // Crear una nueva entidad Archivo
             Archivo archivoEntity = new Archivo();
+            String resumePathImg = "/uploads/" + dispositivo.getId();
             archivoEntity.setNombreArchivo(imgFilename);
-            archivoEntity.setRutaArchivo(directoryPathImg);
+            archivoEntity.setRutaArchivo(resumePathImg);
             archivoEntity.setDispositivo(dispositivo);
 
             // Guardar la entidad Archivo en la base de datos

@@ -12,10 +12,10 @@ import com.cc5002.tarea.entities.Dispositivo;
 public interface DispositivoRepository extends JpaRepository<Dispositivo, Integer> {
     @Query(value = """
     SELECT 
+        d.id,
         d.tipo,
         d.nombre,
         d.estado,
-        c.nombre AS contacto_nombre,
         com.nombre AS comuna_nombre,
         a.ruta_archivo,
         a.nombre_archivo

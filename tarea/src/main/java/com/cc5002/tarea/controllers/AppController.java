@@ -37,8 +37,9 @@ public class AppController {
     }
 
     @GetMapping({ "/dispositivos", "/dispositivos/" })
-    public String dispositivos() {
-        
+    public String dispositivos(Model model) {
+        List<Object[]> dispositivos = appService.getDispositivos();
+        model.addAttribute("dispositivos", dispositivos);
         return "ver-dispositivos";
     }
 
