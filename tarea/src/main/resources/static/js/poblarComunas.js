@@ -3,7 +3,7 @@ document.getElementById("region").addEventListener("change", function () {
     console.log(regionId)
 
     if (regionId === "") {
-        document.getElementById("comuna").innerHTML = '<option value="0">Seleccione una comuna</option>';
+        document.getElementById("comuna").innerHTML = '<option value="">Seleccione una comuna</option>';
         return;
     }
 
@@ -17,7 +17,7 @@ document.getElementById("region").addEventListener("change", function () {
         .then(data => {
             const comunas = data.comunas;
             const comunaSelect = document.getElementById("comuna");
-            comunaSelect.innerHTML = '<option value="0">Seleccione una comuna</option>';
+            comunaSelect.innerHTML = '<option value="">Seleccione una comuna</option>';
             comunas.forEach(comuna => {
                 const option = document.createElement("option");
                 option.value = comuna.id;

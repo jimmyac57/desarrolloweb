@@ -16,7 +16,6 @@ import jakarta.validation.constraints.NotNull;
 public class Archivo {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -35,9 +34,10 @@ public class Archivo {
     public Archivo(){
 
     }
-    public Archivo(String nombre_archivo, String ruta_archivo){
+    public Archivo(String nombre_archivo, String ruta_archivo , Dispositivo dispositivo){
         this.nombreArchivo = nombre_archivo;
         this.rutaArchivo = ruta_archivo;
+        this.dispositivo = dispositivo;
     }
 
     public Integer getId() {
@@ -62,6 +62,14 @@ public class Archivo {
 
     public void setRutaArchivo(String ruta_archivo) {
         this.rutaArchivo = ruta_archivo;
+    }
+
+    public Dispositivo getDispositivo() {
+        return dispositivo;
+    }
+
+    public void setDispositivo(Dispositivo dispositivo) {
+        this.dispositivo = dispositivo;
     }
     
 }

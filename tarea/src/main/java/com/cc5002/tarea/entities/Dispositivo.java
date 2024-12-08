@@ -17,7 +17,6 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class Dispositivo {
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -25,7 +24,7 @@ public class Dispositivo {
     private String nombre;
 
     @NotNull
-    private Integer tipo;
+    private String tipo;
     
     @NotNull
     private Integer anosUso;
@@ -34,11 +33,12 @@ public class Dispositivo {
 
     
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "contacto_id", nullable = false)
     private Contacto contacto;
 
     @NotNull
-    private Integer estado;
+    private String estado;
 
     public Integer getId() {
         return id;
@@ -48,7 +48,7 @@ public class Dispositivo {
         return nombre;
     }
 
-    public Integer getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
@@ -64,7 +64,7 @@ public class Dispositivo {
         return contacto;
     }
 
-    public Integer getEstado() {
+    public String getEstado() {
         return estado;
     }
 
@@ -76,7 +76,7 @@ public class Dispositivo {
         this.nombre = nombre;
     }
 
-    public void setTipo(Integer tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
@@ -92,57 +92,44 @@ public class Dispositivo {
         this.contacto = contacto2;
     }
 
-    public void setEstado(Integer estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
-    public static Map<String, String> validateDispositivo(String nombre, String descripcion, Integer tipo, Integer uso, Integer estado) {
+    public static String mapearTipo(Integer tipo){
+        Map<Integer, String> tipos = new HashMap<>();
+        tipos.put(1, "pantalla");
+        tipos.put(2, "notebook");
+        tipos.put(3, "tablet");
+        tipos.put(4, "celular");
+        tipos.put(5, "consola");
+        tipos.put(6, "mouse");
+        tipos.put(7, "teclado");
+        tipos.put(8, "impresora");
+        tipos.put(9, "parlante");
+        tipos.put(10, "audifonos");
+        tipos.put(11, "otro");
+        return tipos.get(tipo);
+    }
 
-        Map<String, String> errores = new HashMap<>();
-        errores.put("dispositivo","");
-        if (nombre == null || nombre.isEmpty()) {
-            errores.put("dispositivo", "El nombre del dispositivo es obligatorio");
-        } else if(nombre.length() > 80){
-            errores.put("dispositivo", "El nombre del dispositivo no puede tener más de 80 caracteres");
-        } else if(nombre.length() < 3){
-            errores.put("dispositivo", "El nombre del dispositivo no puede tener menos de 3 caracteres");
-        } else if (!nombre.matches("[A-Za-z0-9\\s]+")) {
-            errores.put("dispositivo", "El nombre del dispositivo solo puede contener letras y números.");
-        }
+    public static String mapearEstado(Integer estado){
+        Map<Integer, String> estados = new HashMap<>();
+        estados.put(1, "funciona perfecto");
+        estados.put(2, "funciona a medias");
+        estados.put(3, "no funciona");
+        return estados.get(estado);
+    }
 
-        errores.put("descripcion", "");
-        if (descripcion != null && !descripcion.isEmpty()) {
-            if (descripcion.length() < 5) {
-                errores.put("descripcion", "La descripción debe tener al menos 5 caracteres.");
-            } else if (descripcion.length() > 200) {
-                errores.put("descripcion", "La descripción no puede tener más de 200 caracteres.");
-            } else if (!descripcion.matches("[A-Za-z0-9\\s!@#$%^&*(),.?\":{}|<>_-]+")) {
-                errores.put("descripcion", "La descripción contiene caracteres inválidos.");
-            }
-        }
-        errores.put("tipo", "");
-        if (tipo == null) {
-            errores.put("tipo", "El tipo no puede estar vacío.");
-        } else if (tipo < 1 || tipo > 11) {
-            errores.put("tipo", "El tipo no es válido.");
-        }
+    public Dispositivo() {
+    }
 
-        errores.put("uso", "");
-        if (uso == null) {
-            errores.put("uso", "Los años de uso no pueden estar vacíos.");
-        } else if (uso < 1 || uso > 99) {
-            errores.put("uso", "Los años de uso deben estar entre 1 y 99.");
-        }
-
-    
-        errores.put("estado", "");
-        if (estado == null) {
-            errores.put("estado", "El estado no puede estar vacío.");
-        } else if (estado < 1 || estado > 3) {
-            errores.put("estado", "El estado no es válido.");
-        }
-
-        return errores;
+    public Dispositivo(Contacto contacto, String nombre,  String descripcion, String tipo, Integer anosUso, String estado) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.anosUso = anosUso;
+        this.descripcion = descripcion;
+        this.contacto = contacto;
+        this.estado = estado;
     }
 
 

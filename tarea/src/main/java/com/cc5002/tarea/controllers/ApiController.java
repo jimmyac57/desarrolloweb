@@ -36,4 +36,10 @@ public class ApiController {
         List<Region> region = apiService.getRegionesApi();
         return Map.of("data", region);
     }
+
+    @GetMapping("/listadispositivos")
+    public Map<String,List<Object[]>> getDispositivosEndPoint() {
+        List<Object[]> dispositivos = apiService.getListaDeDispositivosApi();
+        return Map.of("dispositivos", dispositivos);
+    }
 }
