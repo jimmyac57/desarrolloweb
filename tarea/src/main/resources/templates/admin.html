@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="Jimmy Aguilera" />
+        <title>Admin</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/css/admin.css}"
+    /> <link
+    rel="stylesheet"
+    type="text/css"
+    th:href="@{/css/modal.css}"
+  /><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+<body>
+  
+  <div class="container mt-5">
+    <div th:if="${exito != null and exito}">
+      <h2 id="conf-msg">Se ha eliminado correctamente </h2>
+  </div>
+  <div th:if="${exito != null and not exito}">
+      <h2 id="error-msg">No se ha podido eliminar el archivo, debe seleccionar el motivo</h2>
+    </div>
+    <h1 class="mb-4">Gestión de Archivos</h1>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID Archivo</th>
+                <th>Imagen</th>
+                <th>Nombre Dispositivo</th>
+                <th>Email Contacto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-archivos">
+        </tbody>
+    </table>
+</div>
+
+<form id="formEliminacion" th:object="${deleteFileDTO}" th:action="@{/admin/eliminar/}" method="post" style="display: none;">
+  <input type="hidden" th:field="*{idArchivo}" id="idArchivo">
+  <input type="hidden" th:field="*{idContacto}" id="idContacto">
+  <input type="hidden" th:field="*{idDispositivo}" id="idDispositivo">
+  <input type="text" th:field="*{motivo}" id="motivo"  placeholder="Motivo de eliminación">
+  <button class="btn btn-success btn-submit" id="btn-submit" type="submit">Confirmar</button>
+  <button class="btn btn-secondary btn-cancelar" id="btn-cancelar" type="button" >Cancelar</button>
+</form>
+
+<div id="modal" class="modal" tabindex="-1" style="display: none;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Imagen más grande</h5>
+        <button type="button" class="btn-close" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="modal-img" alt="Vista ampliada de la imagen" class="img-fluid">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script th:src="@{/js/cargarDataAdmin.js}"> </script>
+<script th:src="@{/js/eliminarArchivo.js}"> </script>
+<script th:src="@{/js/modal.js}"></script>
+</body>
+
+</html>

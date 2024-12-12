@@ -1,9 +1,8 @@
 package com.cc5002.tarea.controllers;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,10 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cc5002.tarea.dto.DispositivoDTO;
 import com.cc5002.tarea.dto.DonacionFormDTO;
+import com.cc5002.tarea.dto.ComentarioDTO;
 import com.cc5002.tarea.services.AppService;
 
 import jakarta.validation.Valid;
@@ -37,9 +38,9 @@ public class AppController {
     }
 
     @GetMapping({ "/dispositivos", "/dispositivos/" })
-    public String dispositivos(Model model) {
-        List<Object[]> dispositivos = appService.getDispositivos();
-        model.addAttribute("dispositivos", dispositivos);
+    public String dispositivos(@RequestParam(defaultValue = "0") Integer page, Model model) {
+        Map<String, Page<Object[]>> result = appService.getListaDeDispositivos(page, 5);
+        model.addAttribute("dispositivos", result.get("dispositivos"));
         return "ver-dispositivos";
     }
 
@@ -56,7 +57,7 @@ public class AppController {
         if (!model.containsAttribute("exito")) {
             model.addAttribute("exito", false);
         }
-        return "trydto";
+        return "donacionForm";
     }
 
     @PostMapping({ "/validar", "/validar/" })
@@ -68,10 +69,10 @@ public class AppController {
                 appService.getRegiones());
 
         if (result.containsKey("errors")) {
-            // Preparar el contexto de errores
+            //pasar los errores
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.donacionFormDTO",
                     result.get("errors"));
-
+            //pasar el input que ya se habia ingresado
             redirectAttributes.addFlashAttribute("donacionFormDTO", result.get("donacionFormDTO"));
             redirectAttributes.addFlashAttribute("regiones", result.get("regiones"));
             redirectAttributes.addFlashAttribute("comunas", result.get("comunas"));
@@ -79,22 +80,64 @@ public class AppController {
             return "redirect:/donacion";
         }
 
-        // Si todo es válido, continuar con la lógica posterior
         appService.guardarDonacion(donacionFormDTO);
         redirectAttributes.addFlashAttribute("exito", true);
         System.out.println(donacionFormDTO.toString());
         return "redirect:/donacion";
-    }
-
-    @GetMapping("/dispositivos/{page}/")
-    public String dispositivos(@PathVariable Integer page) {
-        return "ver-dispositivos";
-    }
-
-    @GetMapping("/dispositivos/info/{id}/")
-    public String info(@PathVariable Integer id) {
-        return "informacion-dispositivo";
 
     }
+
+    @GetMapping({ "/informaciondispositivos/{id}", "/informaciondispositivos/{id}/" })
+    public String info(@PathVariable Integer id, Model model) {
+        Map<String, Object> data = appService.findDispositivosConInfo(id);
+        model.addAttribute("data", data);
+        if (!model.containsAttribute("comentarioDTO")) {
+            ComentarioDTO dto = new ComentarioDTO();
+            model.addAttribute("comentarioDTO", dto);
+        }
+        if (!model.containsAttribute("exito")) {
+            model.addAttribute("exito", false);
+        }
+        return "informacion-dispositivos";
+    }
+
+    @PostMapping({ "/validacioncomentario", "/validacioncomentario/" })
+    public String procesarComentario(
+            @RequestParam("deviceId") Integer id,
+            @Valid @ModelAttribute("comentarioDTO") ComentarioDTO comentarioDTO,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes) {
+
+        System.out.println("ID del dispositivo a validar comentario: " + id);
+
+        if (bindingResult.hasErrors()) {
+            //pasar los errores 
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.comentarioDTO",
+                    bindingResult);
+            //pasar el input que ya se habia ingresado
+            redirectAttributes.addFlashAttribute("comentarioDTO", comentarioDTO);
+            return "redirect:/informaciondispositivos/" + id;
+        }
+
+        appService.guardarComentario(comentarioDTO, id);
+
+        redirectAttributes.addFlashAttribute("exito", true);
+        return "redirect:/informaciondispositivos/" + id;
+    }
+
+    @GetMapping({ "/graficodispositivo", "/graficodispositivo/" })
+    public String graficoDispositivo() {
+        return "grafico-dispositivos";
+    }
+
+    @GetMapping({ "/graficocontacto", "/graficocontacto/" })
+    public String graficoContactoByComuna() {
+        return "grafico-contactos";
+    }
+
+
+
+    
+
 
 }

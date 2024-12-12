@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+/*author:Jimmy Aguilera*/
+
 public class DonacionFormDTO {
 
     @NotEmpty(message = "El nombre es obligatorio.")
@@ -22,7 +24,6 @@ public class DonacionFormDTO {
     @Email(message = "Debe ser un email válido. Ejemplo: correo@dominio.cl")
     private String email;
 
-    // No marcamos celular como obligatorio, pero podrías hacerlo si quisieras.
     private String celular;
 
     @NotNull(message = "La región es obligatoria.")
@@ -31,13 +32,10 @@ public class DonacionFormDTO {
     @NotNull(message = "La comuna es obligatoria.")
     private Integer comuna;
 
-    // Lista de dispositivos. Se validará cada uno si se agrega @Valid sobre la lista.
-    // Podrías poner @Size para limitar la cantidad de dispositivos si lo deseas.
     @jakarta.validation.Valid
     @NotEmpty(message = "Debe agregar al menos un dispositivo.")
     private List<DispositivoDTO> dispositivos = new ArrayList<>();
 
-    // Getters y Setters
     public String getNombre() {
         return nombre;
     }

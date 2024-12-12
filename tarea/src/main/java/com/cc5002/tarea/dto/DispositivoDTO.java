@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
+/*author:Jimmy Aguilera*/
+
 public class DispositivoDTO {
 
     @NotEmpty(message = "El nombre del dispositivo es obligatorio.")
@@ -51,7 +53,7 @@ public class DispositivoDTO {
 
     // Método para convertir los MultipartFiles en ArchivoDTO
     public void convertirArchivosAGuardados() {
-        this.archivosGuardados.clear(); // Limpiar para evitar duplicados
+        this.archivosGuardados.clear();
         for (MultipartFile archivo : this.archivos) {
             ArchivoDTO archivoDTO = new ArchivoDTO();
             archivoDTO.setArchivo(archivo);

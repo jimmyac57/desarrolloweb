@@ -3,6 +3,8 @@ package com.cc5002.tarea.dto;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
+/*author:Jimmy Aguilera*/
+
 public class ArchivoDTO {
 
     @NotEmpty(message = "Debe adjuntar un archivo.")

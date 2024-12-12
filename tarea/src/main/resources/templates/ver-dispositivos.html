@@ -51,24 +51,16 @@
       <div>
         <a class="button" th:href="@{/}">Volver al inicio</a>
       </div>
-      <nav>
-        <ul class="pagination">
-          <li th:each="page : ${paginas_visibles}">
-            <span th:if="${page == '...'}" th:text="'...'"></span>
-            <a
-              th:if="${page != '...' and page == pagina_actual}"
-              th:href="@{/ver-dispositivos(pagina=${page})}"
-              class="active"
-              th:text="${page}"
-            ></a>
-            <a
-              th:if="${page != '...' and page != pagina_actual}"
-              th:href="@{/ver-dispositivos(pagina=${page})}"
-              th:text="${page}"
-            ></a>
-          </li>
-        </ul>
-      </nav>
+      <div class="pagination">
+        <a th:if="${dispositivos.hasPrevious()}" 
+           th:href="@{/dispositivos(page=${dispositivos.number - 1})}" 
+           class="pagination-link">Anterior</a>
+        <span th:text="${dispositivos.number + 1} + ' / ' + ${dispositivos.totalPages}">Página</span>
+        <a th:if="${dispositivos.hasNext()}" 
+           th:href="@{/dispositivos(page=${dispositivos.number + 1})}" 
+           class="pagination-link">Siguiente</a>
+    </div>
+    
     </div>
 
     <script th:src="@{/js/ver-dispositivos.js}"></script>

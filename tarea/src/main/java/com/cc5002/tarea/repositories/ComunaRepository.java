@@ -9,7 +9,7 @@ import com.cc5002.tarea.entities.Comuna;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
+/*author:Jimmy Aguilera*/
 
 @Repository
 public interface ComunaRepository extends JpaRepository<Comuna, Integer> {

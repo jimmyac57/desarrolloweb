@@ -1,0 +1,12 @@
+.imagen {
+    width: 100px;
+    height: 100px;
+}
+
+#conf-msg {
+    color: green;
+}
+
+#error-msg {
+    color: red;
+}
